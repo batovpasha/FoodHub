@@ -13,3 +13,7 @@
 ## BPMN
 
 ![bpmn](https://github.com/batovpasha/FoodHub/blob/master/doc/diagrams/bpmn/bpmn.png)
+
+## Database
+
+![db](https://github.com/batovpasha/FoodHub/blob/master/doc/diagrams/db/db.png)
