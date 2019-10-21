@@ -17,3 +17,17 @@
 ## Database
 
 ![db](https://github.com/batovpasha/FoodHub/blob/master/doc/diagrams/db/db.png)
+
+## Architecture
+
+![architecture](https://github.com/batovpasha/FoodHub/blob/master/doc/diagrams/architecture/architecture.png)
+
+### Client
+
+1. View - React
+2. State [WIP] - Redux or Mobx
+3. Network layer
+   - WebSocket - browser WebSocket API
+   - HTTP [WIP] - fetch + custom abstraction or XMLHttpRequest + axios 
+
+### Server [WIP]
