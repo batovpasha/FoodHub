@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-import logo from '../../icons/logo.svg';
-import styles from './App.module.css';
+import logo from '../../icons/logo.svg'
+import styles from './App.module.css'
 
 export const App: React.FC = () => {
   return (
@@ -21,5 +21,5 @@ export const App: React.FC = () => {
         </a>
       </header>
     </div>
-  );
+  )
 }
