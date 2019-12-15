@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 // Components
 import Restaurants from './pages/Restaurants';
 import Dishes from './pages/Dishes';
+import MakeOrder from './pages/MakeOrder';
 import { Button } from '@material-ui/core';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
 
                 <Route exact path='/restaurants' component={Restaurants}/>
                 <Route exact path='/:restaurant/dishes' component={Dishes}/>
+                <Route exact path='/order' component={MakeOrder}/>
             </Switch>
         </Router>
     );

@@ -59,6 +59,9 @@ export default function Dish() {
                                 exttexttexttexttext text texttextt exttexttextte xttexttexttextt exttexttexttexttex
                             </span>
                         </div>
+                        <div className={classes.description} style={{ justifyContent: 'flex-end' }}>
+                            <Typography variant={'h4'} style={{ color: '#ff7043'}}>1234 грн</Typography>
+                        </div>
                         <Checkbox
                             className={classes.checkbox}
                             checked={checked}
