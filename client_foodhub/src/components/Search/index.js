@@ -8,6 +8,11 @@ const useStyles = makeStyles(theme => ({
     root: {
         marginBottom: 10,
         padding: 10,
+        position: 'sticky',
+        top: 0,
+        background: '#81c784',
+        zIndex: 100,
+        overflow: 'hidden',
     },
     content: {
         display: 'flex',
