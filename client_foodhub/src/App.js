@@ -1,7 +1,14 @@
+// Core
 import React from 'react';
+
+// Instruments
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { increment, decrement } from './store/actions';
 import { useSelector, useDispatch } from 'react-redux';
+
+// Components
+import Restaurants from './pages/Restaurants';
+import Dishes from './pages/Dishes';
 import { Button } from '@material-ui/core';
 
 function App() {
@@ -30,6 +37,9 @@ function App() {
                 />
                 <Route exact path="/test" render={() => <h1>test</h1>} />
                 <Route exact path="/test/:id" render={props => <h1>{props.match.params.id}</h1>} />
+
+                <Route exact path='/restaurants' component={Restaurants}/>
+                <Route exact path='/:restaurant/dishes' component={Dishes}/>
             </Switch>
         </Router>
     );
