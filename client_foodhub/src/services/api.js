@@ -45,7 +45,7 @@ export class FakeUserApiService {
 
                 setTimeout(() => resolve({...user, email}), 500);
             } else {
-                setTimeout(() => reject(new Error('Invalid token')), 500);
+                setTimeout(() => reject(new Error('Invalid credentials')), 500);
             }
         } catch (error) {
             setTimeout(() => reject(error), 500);

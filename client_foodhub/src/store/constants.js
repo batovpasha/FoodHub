@@ -3,3 +3,8 @@ export const ResourseStatus = {
     LOADING: 'LOADING',
     ERROR: 'ERROR'
 };
+
+export const ErrorType = {
+    INCORRECT_CREDENTIALS: 'INCORRECT_CREDENTIALS',
+    UNKNOWN_ERROR: 'UNKNOWN_ERROR'
+}

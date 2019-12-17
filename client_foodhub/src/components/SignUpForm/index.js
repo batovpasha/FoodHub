@@ -14,6 +14,9 @@ import {signUp} from '../../store';
 import {useHistory} from 'react-router';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    marginTop: '154px',
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -55,7 +58,7 @@ export default function SignUpForm() {
   }, [dispatch, redirect])
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" className={classes.root}>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>

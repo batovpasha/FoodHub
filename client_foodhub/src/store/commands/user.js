@@ -7,6 +7,7 @@ import {
     signUpSuccess,
     signOutSuccess
 } from "../actions"
+import {ErrorType} from "../constants";
 
 export const signIn = ({ login, password }, redirect) => async (dispatch, _getState, { api }) => {
     dispatch(signInStart());
@@ -15,7 +16,12 @@ export const signIn = ({ login, password }, redirect) => async (dispatch, _getSt
         dispatch(signInSuccess(user));
         redirect && redirect();
     } catch (error) {
-        dispatch(signInFailure(error));
+        console.log(error.message);
+        if (error.message === 'Invalid credentials') {
+            dispatch(signInFailure({ type: ErrorType.INCORRECT_CREDENTIALS }));
+        } else {
+            dispatch(signInFailure({ type: ErrorType.UNKNOWN_ERROR }));
+        }
     }
 }
 

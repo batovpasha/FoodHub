@@ -27,14 +27,15 @@ export const userReducer = handleActions({
             .updateIn(['data'], data => ({ ...data, ...user }))
             .updateIn(['error'], () => undefined),
 
-        [combineActions(signInFailure, signUpFailure)]: (state, error) => state
+        [combineActions(signInFailure, signUpFailure)]: (state, { payload: { error } }) => state
             .updateIn(['status'], () => ResourseStatus.ERROR)
             .updateIn(['error'], () => error),
 
         [combineActions(signInStart, signUpStart)]: state => state
             .updateIn(['status'], () => ResourseStatus.LOADING),
 
-        SIGN_OUT_SUCCESS: () => initialState.updateIn(['status'], () => ResourseStatus.READY)
+        SIGN_OUT_SUCCESS: () => initialState
+            .updateIn(['status'], () => ResourseStatus.READY)
     },
     initialState
 );
