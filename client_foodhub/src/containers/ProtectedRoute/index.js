@@ -35,22 +35,21 @@ import { selectIsAuthenticated } from '../../store';
 //   );
 // }
 
-export default function ProtectedRoute({ children, ...rest }) {
+export default function ProtectedRoute({ component: Component, ...rest }) {
     const isAuthenticated = useSelector(selectIsAuthenticated);
     return (
         <Route
             {...rest}
-            render={({ location }) =>
+            render={props => (
                 isAuthenticated ? (
-                    children
+                    <Component {...props} />
                 ) : (
-                    <Redirect
-                        to={{
-                            pathname: "/singIn",
-                            state: { from: location }
-                        }}
-                    />
-                )}
+                    <Redirect to={{
+                        pathname: '/signIn',
+                        state: { from: props.location }
+                    }} />
+                )
+            )}
         />
     );
 }

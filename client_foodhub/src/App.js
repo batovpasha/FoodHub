@@ -7,21 +7,29 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 // Components
 import Restaurants from './pages/Restaurants';
 import Dishes from './pages/Dishes';
+import SignIn from './pages/SignIn';
 
-function App() {
+import ProtectedRoute from './containers/ProtectedRoute';
+
+function Home() {
+    return (
+        <h1>Food Hub Home</h1>
+    );
+}
+
+export default function App() {
     return (
         <Router>
             <Switch>
-                <Route exactpath="/" render={() => <h1>Food Hub</h1>}/>
-
-                <Route exact path="/test" render={() => <h1>test</h1>} />
-                <Route exact path="/test/:id" render={props => <h1>{props.match.params.id}</h1>} />
+                <Route exact path="/signIn">
+                    <SignIn />
+                </Route>
 
                 <Route exact path='/restaurants' component={Restaurants}/>
                 <Route exact path='/:restaurant/dishes' component={Dishes}/>
+
+                <ProtectedRoute exact path="/" component={Home}/>
             </Switch>
         </Router>
     );
 }
-
-export default App;
