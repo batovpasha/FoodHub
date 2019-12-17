@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   error: {
-    backgroundColor: theme.palette.error.dark,
+    backgroundColor: theme.palette.secondary.main,
   },
   icon: {
     fontSize: 20,
@@ -36,7 +36,7 @@ export default function ErrorSnackBar({ isError, message }) {
     return (
       <Snackbar
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'center',
         }}
         open={open}

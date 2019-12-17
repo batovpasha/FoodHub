@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import {signOut} from '../../store';
@@ -22,9 +21,6 @@ export default function Home() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Typography component="h1" variant="h2">
-                Food hub
-            </Typography>
             <Button
                 fullWidth
                 variant="contained"

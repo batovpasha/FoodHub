@@ -16,7 +16,7 @@ export default function Loading() {
     const classes = useStyles();
     return (
         <Container component="main" maxWidth="xl" className={classes.root}>
-            <CircularProgress color="secondary" size={72} />
+            <CircularProgress size={72} />
         </Container>
     );
 }
