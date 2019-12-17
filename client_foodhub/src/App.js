@@ -11,6 +11,7 @@ import Dishes from './pages/Dishes';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import MakeOrder from './pages/MakeOrder';
 
 export default function App() {
     return (
@@ -22,6 +23,7 @@ export default function App() {
                 <ProtectedRoute exact path='/restaurants' component={Restaurants}/>
                 <ProtectedRoute exact path='/:restaurant/dishes' component={Dishes}/>
                 <ProtectedRoute exact path="/" component={Home}/>
+                <ProtectedRoute exact path='/order' component={MakeOrder}/>
             </Switch>
         </Router>
     );
