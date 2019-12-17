@@ -22,19 +22,19 @@ const initialState = fromJS({
 });
 
 export const userReducer = handleActions({
-        [combineActions(signInSuccess, signUpSuccess)]: (state, { payload }) => state
+        [combineActions(signInSuccess, signUpSuccess)]: (state, { payload: { user } }) => state
             .updateIn(['status'], () => ResourseStatus.READY)
-            .updateIn(['data'], data => ({ ...data, ...payload }))
+            .updateIn(['data'], data => ({ ...data, ...user }))
             .updateIn(['error'], () => undefined),
 
-        [combineActions(signInFailure, signUpFailure)]: (state, { payload: { error } }) => state
+        [combineActions(signInFailure, signUpFailure)]: (state, error) => state
             .updateIn(['status'], () => ResourseStatus.ERROR)
             .updateIn(['error'], () => error),
 
         [combineActions(signInStart, signUpStart)]: state => state
             .updateIn(['status'], () => ResourseStatus.LOADING),
 
-        SIGN_OUT_SUCCESS: () => initialState
+        SIGN_OUT_SUCCESS: () => initialState.updateIn(['status'], () => ResourseStatus.READY)
     },
     initialState
 );

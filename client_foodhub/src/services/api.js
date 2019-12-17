@@ -12,9 +12,9 @@ export class FakeUserApiService {
             const data = JSON.parse(localStorage.getItem('food-hub-client'));
             localStorage.setItem('food-hub-client', JSON.stringify({ ...data, user }));
 
-            resolve(user);
+            setTimeout(() => resolve(user), 500);
         } catch (error) {
-            reject(error);
+            setTimeout(() => reject(error), 500);
         }
     });
 
@@ -24,31 +24,31 @@ export class FakeUserApiService {
                 localStorage.getItem('food-hub-client')
             );
             if (user) {
-                resolve(user);
+                setTimeout(() => resolve(user), 500);
             } else {
-                reject(new Error('Invalid token'));
+                setTimeout(() => reject(new Error('Invalid token')), 500);
             }
         } catch (error) {
-            reject(error)
+            setTimeout(() => reject(error), 500);
         }
     });
 
     login = (userLogin, userPassword) => new Promise((resolve, reject) => {
         try {
-            const { user: { login, password, ...user } } = JSON.parse(
+            const { user: { email, password, ...user } } = JSON.parse(
                 localStorage.getItem('food-hub-client')
             );
-            if (login === userLogin && password === userPassword && user) {
+            if (email === userLogin && password === userPassword && user) {
                 const token = new Date().toISOString();
                 const { error } = this.auth.writeToken(token);
                 if (error) throw error;
 
-                resolve(user);
+                setTimeout(() => resolve({...user, email}), 500);
             } else {
-                reject(new Error('Invalid token'));
+                setTimeout(() => reject(new Error('Invalid token')), 500);
             }
         } catch (error) {
-            reject(error)
+            setTimeout(() => reject(error), 500);
         }
     });
 }
