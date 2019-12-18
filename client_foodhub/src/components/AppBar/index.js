@@ -2,8 +2,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
+import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from './logo.svg';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,12 +20,14 @@ export default function ButtonAppBar() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-            <Logo className={classes.logo} />
-        </Toolbar>
-      </AppBar>
-    </div>
+      <div className={classes.root}>
+          <AppBar position="static">
+              <Toolbar>
+                  <Link to={routes.home}>
+                      <Logo className={classes.logo} />
+                  </Link>
+              </Toolbar>
+          </AppBar>
+      </div>
   );
 }

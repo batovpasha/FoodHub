@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        background: '#b2fab4',
+        background: theme.palette.grey[100]
     },
     content: {
         maxWidth: '1380px',

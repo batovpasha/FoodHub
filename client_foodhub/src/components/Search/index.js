@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
         padding: 10,
         position: 'sticky',
         top: 0,
-        background: '#81c784',
+        background: theme.palette.grey[300],
         zIndex: 100,
         overflow: 'hidden',
     },
