@@ -1,16 +1,27 @@
-import { rootReducer } from './reducer';
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { createStore } from 'redux'
+import { FakeUserApiService, AuthService } from '../services';
+import { rootReducer } from './reducers';
+import { signInSuccess, signInFailure} from './actions';
 
 export default function configureStore(preloadedState) {
-  // const middlewares = [];
-  // const middlewareEnhancer = applyMiddleware(...middlewares);
+    const api = new FakeUserApiService(new AuthService());
 
-  const enhancers = [];
-  const composedEnhancers = composeWithDevTools(...enhancers);
+    const composedEnhancers = composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument({ api }))
+    );
 
-  const store = createStore(rootReducer, preloadedState, composedEnhancers);
+    const store = createStore(rootReducer, preloadedState, composedEnhancers);
 
-  return store;
+    api.getUser()
+        .then(user => store.dispatch(signInSuccess(user)))
+        .catch(() => store.dispatch(signInFailure()))
+
+    return store;
 }
+
+export * from './actions';
+export * from './commands';
+export * from './selectors';

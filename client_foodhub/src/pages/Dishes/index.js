@@ -4,7 +4,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 // Components
-import DishesList from '../../containers/DishesList';
+import DishesList from '../../components/DishesList';
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',

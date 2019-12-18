@@ -3,7 +3,7 @@ import React from 'react';
 // Instruments
 import { makeStyles } from '@material-ui/core/styles';
 // Components
-import RestaurantsList from '../../containers/RestaurantsList';
+import RestaurantsList from '../../components/RestaurantsList';
 import Search from '../../components/Search';
 
 const useStyles = makeStyles(theme => ({
