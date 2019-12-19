@@ -9,7 +9,8 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 'bold',
     },
     image: {
-        width: '100%',
+        maxWidth: '100%',
+        height: 190,
     },
     card: {
         padding: theme.spacing(2),
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Dish() {
+export default function Dish({ title, image, price, description }) {
     const classes = useStyles();
     const [ checked, setChecked ] = useState(false);
 
@@ -46,21 +47,18 @@ export default function Dish() {
                         <img
                             className={classes.image}
                             alt={'alt'}
-                            src="https://nashagazeta.ch/sites/default/files/styles/article/public/bur-bigmac-big_0_0.jpg?itok=ulBsdGfr"
+                            src={image}
                         />
                     </Grid>
                     <Grid className={classes.content} item xs={8}>
                         <Typography className={classes.title} variant={'h5'} gutterBottom>
-                            Big Mac
+                            {title}
                         </Typography>
                         <div className={classes.description}>
-                            <span>
-                                Топ за свои деньги texttexttexttexttexttex ttexttexttextte xttexttexttex ttexttextt
-                                exttexttexttexttext text texttextt exttexttextte xttexttexttextt exttexttexttexttex
-                            </span>
+                            <span>{ description }</span>
                         </div>
                         <div className={classes.description} style={{ justifyContent: 'flex-end' }}>
-                            <Typography variant={'h4'} style={{ color: '#ff7043'}}>1234 грн</Typography>
+                            <Typography variant={'h4'} style={{ color: '#ff7043'}}>{ price } грн</Typography>
                         </div>
                         <Checkbox
                             className={classes.checkbox}

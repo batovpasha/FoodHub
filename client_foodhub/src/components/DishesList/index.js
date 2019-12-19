@@ -18,37 +18,18 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function DishesList() {
+export default function DishesList({ dishes }) {
     const classes = useStyles();
+
+    if (!dishes) return null;
+
     return (
         <div className={classes.root}>
             <Grid container>
                 <Grid container spacing={3}>
-                    <Dish/>
-                    <Dish/>
-                </Grid>
-
-                <Grid container spacing={3}>
-                    <Dish/>
-                    <Dish/>
-                </Grid>
-
-                <Grid container spacing={3}>
-                    <Dish/>
-                    <Dish/>
-                </Grid>
-
-                <Grid container spacing={3}>
-                    <Dish/>
-                    <Dish/>
-                </Grid>
-                <Grid container spacing={3}>
-                    <Dish/>
-                    <Dish/>
-                </Grid>
-                <Grid container spacing={3}>
-                    <Dish/>
-                    <Dish/>
+                { dishes.map((dish, index) => (
+                    <Dish key={index} {...dish}/>
+                )) }
                 </Grid>
             </Grid>
         </div>
