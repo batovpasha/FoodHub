@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
     },
     field: {
         flex: 1,
-        background: 'white',
         margin:  theme.spacing(0.5),
     }
 }));

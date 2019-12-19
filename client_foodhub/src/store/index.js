@@ -2,12 +2,11 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { FakeUserApiService, AuthService } from '../services';
+import { api } from '../services';
 import { rootReducer } from './reducers';
 import { signInSuccess, signInFailure} from './actions';
 
 export default function configureStore(preloadedState) {
-    const api = new FakeUserApiService(new AuthService());
 
     const composedEnhancers = composeWithDevTools(
         applyMiddleware(thunk.withExtraArgument({ api }))

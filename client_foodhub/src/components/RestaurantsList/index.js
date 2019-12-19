@@ -19,37 +19,24 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function RestaurantsList() {
+export default function RestaurantsList({ searchValue, restaurants }) {
     const classes = useStyles();
+
+    if (!restaurants) return null;
+
     return (
         <div className={classes.root}>
             <Grid container>
                 <Grid container spacing={3}>
-                    <Restaurant/>
-                    <Restaurant/>
-                </Grid>
-
-                <Grid container spacing={3}>
-                    <Restaurant/>
-                    <Restaurant/>
-                </Grid>
-
-                <Grid container spacing={3}>
-                    <Restaurant/>
-                    <Restaurant/>
-                </Grid>
-
-                <Grid container spacing={3}>
-                    <Restaurant/>
-                    <Restaurant/>
-                </Grid>
-                <Grid container spacing={3}>
-                    <Restaurant/>
-                    <Restaurant/>
-                </Grid>
-                <Grid container spacing={3}>
-                    <Restaurant/>
-                    <Restaurant/>
+                    {restaurants
+                        .filter(r =>
+                            r
+                                .title.toLowerCase()
+                                .includes(searchValue.toLowerCase())
+                        )
+                        .map((restaurant, index) => (
+                            <Restaurant key={index} {...restaurant} />
+                        ))}
                 </Grid>
             </Grid>
         </div>

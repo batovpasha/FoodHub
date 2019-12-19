@@ -1,54 +1,21 @@
-export class FakeUserApiService {
-    constructor(auth) {
+export default class ApiService {
+    constructor(auth, user, restaurant, dish) {
         this.auth = auth;
+        this.user = user;
+        this.restaurant = restaurant;
+        this.dish = dish;
     }
 
-    postUser = user => new Promise((resolve, reject) => {
-        try {
-            const token = new Date().toISOString();
-            const { error } = this.auth.writeToken(token);
-            if (error) throw error;
+    // user endpoints
+    postUser = user => this.user.postUser(this.auth, user);
+    getUser = () => this.user.getUser();
+    login = (userLogin, userPassword) => this.user.login(this.auth, userLogin, userPassword);
 
-            const data = JSON.parse(localStorage.getItem('food-hub-client'));
-            localStorage.setItem('food-hub-client', JSON.stringify({ ...data, user }));
+    // restaurant endpoints
+    createRestaurant = restaurant => this.restaurant.createRestaurant(restaurant);
+    getRestaurants = () => this.restaurant.getRestaurants();
+    getLocations = () => this.restaurant.getLocations();
 
-            setTimeout(() => resolve(user), 500);
-        } catch (error) {
-            setTimeout(() => reject(error), 500);
-        }
-    });
-
-    getUser = () => new Promise((resolve, reject) => {
-        try {
-            const { user: { login, password, ...user } } = JSON.parse(
-                localStorage.getItem('food-hub-client')
-            );
-            if (user) {
-                setTimeout(() => resolve(user), 500);
-            } else {
-                setTimeout(() => reject(new Error('Invalid token')), 500);
-            }
-        } catch (error) {
-            setTimeout(() => reject(error), 500);
-        }
-    });
-
-    login = (userLogin, userPassword) => new Promise((resolve, reject) => {
-        try {
-            const { user: { email, password, ...user } } = JSON.parse(
-                localStorage.getItem('food-hub-client')
-            );
-            if (email === userLogin && password === userPassword && user) {
-                const token = new Date().toISOString();
-                const { error } = this.auth.writeToken(token);
-                if (error) throw error;
-
-                setTimeout(() => resolve({...user, email}), 500);
-            } else {
-                setTimeout(() => reject(new Error('Invalid credentials')), 500);
-            }
-        } catch (error) {
-            setTimeout(() => reject(error), 500);
-        }
-    });
+    // dish endpoints
+    getDishes = restaurantId => this.dish.getDishes(restaurantId);
 }
