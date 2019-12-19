@@ -2,10 +2,11 @@
 import React, { useEffect } from 'react';
 // Instruments
 import { useDispatch, useSelector } from 'react-redux';
-import { getDishes, selectAllDishes } from '../../store';
+import { getDishes, selectAllDishes, selectIsDishesLoading } from '../../store';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 // Components
+import Loading from '../../components/Loading';
 import DishesList from '../../components/DishesList';
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,11 +25,14 @@ export default function Dishes (props) {
     const dispatch = useDispatch();
 
     const dishes = useSelector(selectAllDishes);
+    const isLoading = useSelector(selectIsDishesLoading);
 
     useEffect(() => {
         const restaurantId = props.match.params.restaurant;
         dispatch(getDishes(restaurantId));
-    }, [dispatch, props.match.params.restaurant])
+    }, [dispatch, props.match.params.restaurant]);
+
+    if (isLoading) return <Loading />;
 
     return (
         <div className={classes.root}>

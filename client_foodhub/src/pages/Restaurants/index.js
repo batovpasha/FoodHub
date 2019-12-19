@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 // Instruments
 import { makeStyles } from '@material-ui/core/styles';
-import { getLocations, getRestaurants, selectAllLocations, selectAllRestaurants} from '../../store';
+import { getLocations, getRestaurants, selectIsRestaurantsLoading, selectAllLocations, selectAllRestaurants} from '../../store';
 // Components
+import Loading from '../../components/Loading';
 import RestaurantsList from '../../components/RestaurantsList';
 import Search from '../../components/Search';
 
@@ -23,6 +24,7 @@ export default function Restaurants () {
 
     const locations = useSelector(selectAllLocations);
     const restaurants = useSelector(selectAllRestaurants);
+    const isLoading = useSelector(selectIsRestaurantsLoading);
 
     useEffect(() => {
         dispatch(getLocations());
@@ -31,6 +33,8 @@ export default function Restaurants () {
 
     // hardcoded for presentation, will change soon
     const [searchValue, setSearchValue] = useState('');
+
+    if (isLoading) return <Loading />;
 
     return (
         <div className={classes.root}>
