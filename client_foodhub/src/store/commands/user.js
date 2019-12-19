@@ -29,6 +29,7 @@ export const signUp = (userData, redirect) => async (dispatch, _getState, { api 
     dispatch(signUpStart());
     try {
         const user = await api.postUser(userData);
+        console.log(user);
         dispatch(signUpSuccess(user));
         redirect && redirect();
     } catch (error) {

@@ -1,4 +1,4 @@
-export class AuthService {
+export default class AuthService {
     static storageKey = 'food-hub-client';
 
     constructor() {
