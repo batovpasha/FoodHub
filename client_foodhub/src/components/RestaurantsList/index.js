@@ -1,9 +1,6 @@
 // Core
 import React from 'react';
 // Instruments
-import { useSelector } from 'react-redux';
-import { selectAllRestaurants } from '../../store';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 // Components
@@ -22,9 +19,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function RestaurantsList() {
+export default function RestaurantsList({ searchValue, restaurants }) {
     const classes = useStyles();
-    const restaurants = useSelector(selectAllRestaurants);
 
     if (!restaurants) return null;
 
@@ -32,9 +28,15 @@ export default function RestaurantsList() {
         <div className={classes.root}>
             <Grid container>
                 <Grid container spacing={3}>
-                    { restaurants.map(restaurant => (
-                        <Restaurant {...restaurant.toObject()}/>
-                    )) }
+                    {restaurants
+                        .filter(r =>
+                            r
+                                .title.toLowerCase()
+                                .includes(searchValue.toLowerCase())
+                        )
+                        .map((restaurant, index) => (
+                            <Restaurant key={index} {...restaurant} />
+                        ))}
                 </Grid>
             </Grid>
         </div>

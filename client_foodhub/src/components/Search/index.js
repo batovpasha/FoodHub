@@ -14,8 +14,7 @@ const useStyles = makeStyles(theme => ({
         zIndex: 100,
         overflow: 'hidden',
     },
-    content: {
-        display: 'flex',
+    content: { display: 'flex',
         alignItems: 'center',
     },
     search: {
@@ -43,13 +42,15 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Search() {
+export default function Search({ searchValue, setSearchValue, locations }) {
     const classes = useStyles();
     const [location, setLocation] = useState('');
     const [rating, setRating] = useState('');
 
     const handleLocation = ({ target: { value } }) => setLocation(value);
     const handleRating = ({ target: { value } }) => setRating(value);
+
+    const handleSearchInput = ({ target: { value } }) => setSearchValue(value);
 
     return (
         <div className={classes.root}>
@@ -60,6 +61,8 @@ export default function Search() {
                             className={classes.input}
                             placeholder="Поиск ( напр. Макдональдс )"
                             inputProps={{ 'aria-label': 'Поиск ( напр. Макдональдс )' }}
+                            value={searchValue}
+                            onChange={handleSearchInput}
                         />
                         <IconButton type="submit" className={classes.iconButton} aria-label="search">
                             <SearchIcon />
@@ -72,9 +75,11 @@ export default function Search() {
                             <MenuItem value="" disabled>
                                 Локация
                             </MenuItem>
-                            <MenuItem value={1}>КПИ</MenuItem>
-                            <MenuItem value={2}>Шулявка</MenuItem>
-                            <MenuItem value={3}>НАУ</MenuItem>
+                            {locations.map((location, index) => (
+                                <MenuItem key={index} value={index}>
+                                    {location}
+                                </MenuItem>
+                            ))}
                         </Select>
                         <FormHelperText>Локация</FormHelperText>
                     </FormControl>

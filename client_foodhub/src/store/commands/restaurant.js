@@ -1,15 +1,20 @@
 import {
-    createRestaurant,
+    createRestaurantStart,
     createRestaurantSuccess,
     createRestaurantFail,
 
-    getRestaurants,
+    getRestaurantsStart,
     getRestaurantsSuccess,
     getRestaurantsFail,
+
+    getLocationsStart,
+    getLocationsSuccess,
+    getLocationsFail,
+
 } from '../actions';
 
 export const createRestaurant = ( restaurant ) => async (dispatch, _getState, { api }) => {
-    dispatch(createRestaurant());
+    dispatch(createRestaurantStart());
     try {
         const response = await api.createRestaurant(restaurant);
         dispatch(createRestaurantSuccess(response));
@@ -19,12 +24,21 @@ export const createRestaurant = ( restaurant ) => async (dispatch, _getState, { 
 }
 
 export const getRestaurants = () => async (dispatch, _getState, { api }) => {
-    dispatch(getRestaurants());
-
+    dispatch(getRestaurantsStart());
     try {
         const restaurants = await api.getRestaurants();
         dispatch(getRestaurantsSuccess(restaurants));
     } catch (error) {
         dispatch(getRestaurantsFail(error))
+    }
+}
+
+export const getLocations = () => async (dispatch, _getState, { api }) => {
+    dispatch(getLocationsStart());
+    try {
+        const locations = await api.getLocations();
+        dispatch(getLocationsSuccess(locations));
+    } catch (error) {
+        dispatch(getLocationsFail(error));
     }
 }
