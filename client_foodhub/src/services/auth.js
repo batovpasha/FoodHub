@@ -1,4 +1,4 @@
-export default class AuthService {
+class Auth {
     static storageKey = 'food-hub-client';
 
     constructor() {
@@ -13,9 +13,9 @@ export default class AuthService {
         this.writeToken(token);
     }
 
-    getStorageData = () => JSON.parse(localStorage.getItem(AuthService.storageKey));
+    getStorageData = () => JSON.parse(localStorage.getItem(Auth.storageKey));
 
-    setStorageData = data => localStorage.setItem(AuthService.storageKey, JSON.stringify(data))
+    setStorageData = data => localStorage.setItem(Auth.storageKey, JSON.stringify(data))
 
     readToken = () => {
         try {
@@ -44,4 +44,9 @@ export default class AuthService {
         data && typeof data === 'object' &&
         'token' in data && typeof data.token === 'string'
     );
+}
+
+export default function auth (TargetClass) {
+    TargetClass.auth = new Auth();
+    return new TargetClass();
 }

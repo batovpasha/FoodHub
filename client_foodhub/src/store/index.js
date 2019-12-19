@@ -2,19 +2,21 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { api } from '../services';
+import configureServices from '../services';
+
 import { rootReducer } from './reducers';
 import { signInSuccess, signInFailure} from './actions';
 
 export default function configureStore(preloadedState) {
+    const services = configureServices();
 
     const composedEnhancers = composeWithDevTools(
-        applyMiddleware(thunk.withExtraArgument({ api }))
+        applyMiddleware(thunk.withExtraArgument(services))
     );
 
     const store = createStore(rootReducer, preloadedState, composedEnhancers);
 
-    api.getUser()
+    services.userAPI.getUser()
         .then(user => store.dispatch(signInSuccess(user)))
         .catch(() => store.dispatch(signInFailure()))
 

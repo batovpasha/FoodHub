@@ -1,10 +1,13 @@
-export default class UserService {
+import auth from '../auth';
 
-    postUser = (authService, user) =>
+export default @auth
+class UserService {
+
+    postUser = ( user) =>
         new Promise((resolve, reject) => {
             try {
                 const token = new Date().toISOString();
-                const { error } = authService.writeToken(token);
+                const { error } = UserService.auth.writeToken(token);
                 if (error) throw error;
 
                 const data = JSON.parse(localStorage.getItem('food-hub-client'));
@@ -32,7 +35,7 @@ export default class UserService {
             }
         });
 
-    login = (authService, userLogin, userPassword) =>
+    login = (userLogin, userPassword) =>
         new Promise((resolve, reject) => {
             try {
                 const {
@@ -40,7 +43,7 @@ export default class UserService {
                 } = JSON.parse(localStorage.getItem('food-hub-client'));
                 if (email === userLogin && password === userPassword && user) {
                     const token = new Date().toISOString();
-                    const { error } = authService.writeToken(token);
+                    const { error } = UserService.auth.writeToken(token);
                     if (error) throw error;
 
                     setTimeout(() => resolve({ ...user, email }), 500);
