@@ -51,4 +51,29 @@ export class FakeUserApiService {
             setTimeout(() => reject(error), 500);
         }
     });
+
+    createRestaurant = restaurant => new Promise(( resolve, reject ) => {
+        try {
+            const data = JSON.parse(localStorage.getItem('food-hub-client'));
+            const { restaurants } = data;
+            localStorage.setItem('food-hub-client', JSON.stringify({ ...data, restaurants: { ...restaurants, restaurant } }));
+            setTimeout(() => resolve(restaurant), 500);
+        } catch(error) {
+            setTimeout(() => reject(error), 500);
+        }
+    })
+
+    getRestaurants = () => new Promise(( resolve, reject ) => {
+        try {
+            const { restaurants } = JSON.parse(localStorage.getItem('food-hub-client'));
+
+            if (restaurants) {
+                setTimeout(() => resolve(restaurants), 500);
+            } else {
+                setTimeout(() => reject(new Error('No restaurants')), 500);
+            }
+        } catch (error) {
+            setTimeout(() => reject(error), 500);
+        }
+    })
 }

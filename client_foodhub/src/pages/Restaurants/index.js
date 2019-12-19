@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        background: theme.palette.grey[100]
     },
 }));
 
