@@ -9,10 +9,10 @@ import {
 } from "../actions"
 import {ErrorType} from "../constants";
 
-export const signIn = ({ login, password }, redirect) => async (dispatch, _getState, { api }) => {
+export const signIn = ({ login, password }, redirect) => async (dispatch, _getState, { userAPI }) => {
     dispatch(signInStart());
     try {
-        const user = await api.login(login, password);
+        const user = await userAPI.login(login, password);
         dispatch(signInSuccess(user));
         redirect && redirect();
     } catch (error) {
@@ -25,11 +25,10 @@ export const signIn = ({ login, password }, redirect) => async (dispatch, _getSt
     }
 }
 
-export const signUp = (userData, redirect) => async (dispatch, _getState, { api }) => {
+export const signUp = (userData, redirect) => async (dispatch, _getState, { userAPI }) => {
     dispatch(signUpStart());
     try {
-        const user = await api.postUser(userData);
-        console.log(user);
+        const user = await userAPI.postUser(userData);
         dispatch(signUpSuccess(user));
         redirect && redirect();
     } catch (error) {
@@ -37,7 +36,7 @@ export const signUp = (userData, redirect) => async (dispatch, _getState, { api 
     }
 }
 
-export const signOut = () => async (dispatch, _getState, { api }) => {
-    api.auth.resetToken();
+export const signOut = () => async (dispatch, _getState, { userAPI }) => {
+    userAPI.logout();
     dispatch(signOutSuccess());
 }

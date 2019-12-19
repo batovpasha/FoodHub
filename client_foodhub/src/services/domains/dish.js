@@ -1,4 +1,4 @@
-export default class DishService {
+class DishService {
     getDishes = restaurantId =>
         new Promise((resolve, reject) => {
             try {
@@ -35,3 +35,5 @@ export default class DishService {
             }
         });
 }
+
+export default DishService;

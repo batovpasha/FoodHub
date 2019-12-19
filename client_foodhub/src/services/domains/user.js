@@ -1,6 +1,6 @@
 import auth from '../auth';
 
-export default @auth
+@auth
 class UserService {
 
     postUser = ( user) =>
@@ -54,4 +54,8 @@ class UserService {
                 setTimeout(() => reject(error), 500);
             }
         });
+
+    logout = () => UserService.auth.resetToken();
 }
+
+export default UserService;

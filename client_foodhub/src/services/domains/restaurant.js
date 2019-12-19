@@ -1,4 +1,4 @@
-export default class RestaurantService {
+class RestaurantService {
     createRestaurant = restaurant =>
         new Promise((resolve, reject) => {
             try {
@@ -80,3 +80,5 @@ export default class RestaurantService {
             }
         });
 }
+
+export default RestaurantService;

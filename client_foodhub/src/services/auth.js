@@ -48,5 +48,5 @@ class Auth {
 
 export default function auth (TargetClass) {
     TargetClass.auth = new Auth();
-    return new TargetClass();
+    return TargetClass;
 }
