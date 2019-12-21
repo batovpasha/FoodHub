@@ -12,6 +12,14 @@ const {
 async function signUp(req, res) {
   const { firstName, lastName, email, password } = req.body;
 
+  const emailRegexp = /^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+
+  // Email validation
+  if (!emailRegexp.test(email)) {
+    res.status(400).json({ error: 'Invalid email!' });
+    return;
+  }
+
   const hashingRoundsNumber = 8; // number of hashing rounds in bcrypt algorithm
   const passwordHash = await bcrypt.hash(password, hashingRoundsNumber);
 

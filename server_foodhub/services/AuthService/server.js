@@ -1,5 +1,7 @@
 'use strict';
 
+const http = require('http');
+
 const express = require('express');
 const dotenv = require('dotenv');
 
@@ -26,9 +28,11 @@ mountRoutes(app);
 
 const SERVER_URL = `${env.server.PROTOCOL}://${env.server.HOST}:${env.server.PORT}`;
 
-app.listen(env.server.PORT, env.server.HOST, () => {
+const server = http.createServer(app);
+
+server.listen(env.server.PORT, env.server.HOST, () => {
   console.log(`Server starts at ${SERVER_URL}`);
 });
 
 // Exports app instance for testing
-module.exports = app;
+module.exports = server;
