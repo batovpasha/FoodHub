@@ -28,11 +28,11 @@ mountRoutes(app);
 
 const SERVER_URL = `${env.server.PROTOCOL}://${env.server.HOST}:${env.server.PORT}`;
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
-server.listen(env.server.PORT, env.server.HOST, () => {
+app.listen(env.server.PORT, env.server.HOST, () => {
   console.log(`Server starts at ${SERVER_URL}`);
 });
 
 // Exports app instance for testing
-module.exports = server;
+module.exports = app;

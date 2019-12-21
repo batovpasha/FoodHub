@@ -2,19 +2,17 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const should = chai.should();
-
-const enableDestroy = require('server-destroy');
 const server = require('../server');
 
+// Configure chai
 chai.use(chaiHttp);
-
-enableDestroy(server);
+chai.should();
 
 describe('Auth', () => {
   describe('/POST signUp', () => {
     it('should create new user', done => {
-      chai.request(server)
+      chai
+        .request(server)
         .post('/auth/signUp')
         .send({
           firstName: 'Pasha',
@@ -23,11 +21,10 @@ describe('Auth', () => {
           password: '12345',
         })
         .end((err, res) => {
-          res.should.have.status(201);
+          res.should.have.property('error');
+          res.should.have.status(500);
           done();
         });
     });
   });
-
-  // after(() => server.destroy());
 });
