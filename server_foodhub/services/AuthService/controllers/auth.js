@@ -78,7 +78,26 @@ async function signIn(req, res) {
     });
 }
 
-async function tokenInfo(req, res) {}
+function tokenInfo(req, res) {
+  // Try to retrieve Authorization header value
+  const authorization = req.get('Authorization');
+
+  if (authorization) {
+    // Retrieve token from Authorization header
+    const token = authorization.replace('Bearer ', '');
+
+    jwt.verify(token, env.token.SECRET, (err, decode) => {
+      if (err) {
+        res.status(401).json({ error: 'Invalid token!' });
+      } else {
+        // Send token payload in json response
+        res.status(200).json(decode);
+      }
+    });
+  } else {
+    res.status(401).json({ error: 'Missing token!' });
+  }
+}
 
 module.exports = {
   signUp,

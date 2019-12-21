@@ -7,6 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
+    "test": "./node_modules/mocha/bin/mocha",
     "start": "node server.js",
     "dev": "./node_modules/nodemon/bin/nodemon.js server.js"
   },
@@ -15,9 +16,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "server-destroy": "^1.0.1"
   },
   "devDependencies": {
+    "mocha": "^6.2.2",
     "nodemon": "^2.0.2"
   }
 }

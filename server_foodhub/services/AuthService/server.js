@@ -29,3 +29,6 @@ const SERVER_URL = `${env.server.PROTOCOL}://${env.server.HOST}:${env.server.POR
 app.listen(env.server.PORT, env.server.HOST, () => {
   console.log(`Server starts at ${SERVER_URL}`);
 });
+
+// Exports app instance for testing
+module.exports = app;
