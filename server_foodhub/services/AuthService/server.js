@@ -3,17 +3,26 @@
 const express = require('express');
 const dotenv = require('dotenv');
 
+const mountRoutes = require('./routes/index');
+
 // Load all environment variables from .env file to process.env
 dotenv.config();
 
 // Mount all configs into global.env object
 global.env = {
-  db: require('./config/db.js'),
-  server: require('./config/server.js'),
+  db: require('./config/db'),
+  server: require('./config/server'),
+  token: require('./config/token'),
 };
 
 // Create new Express app instance
 const app = express();
+
+// Setup middleware
+app.use(express.json());
+
+// Setup routes
+mountRoutes(app);
 
 const SERVER_URL = `${env.server.PROTOCOL}://${env.server.HOST}:${env.server.PORT}`;
 
