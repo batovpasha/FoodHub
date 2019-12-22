@@ -73,8 +73,33 @@ function getUserByEmail(email) {
   });
 }
 
+function getUserById(id) {
+  return new Promise((resolve, reject) => {
+    establishDbConnection()
+      .then(connection => {
+        connection.query(
+          'SELECT * FROM users WHERE id = ?',
+          [id],
+          (err, result) => {
+            if (err) reject(err);
+            else {
+              const [user] = result;
+              if (user) {
+                resolve(user);
+              } else {
+                reject('User does not exist!');
+              }
+            }
+          }
+        );
+      })
+      .catch(reject);
+  });
+}
+
 module.exports = {
   createNewUser,
   setupNewPasswordForUser,
   getUserByEmail,
+  getUserById,
 };

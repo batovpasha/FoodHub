@@ -4,6 +4,7 @@ const http = require('http');
 
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 const mountRoutes = require('./routes/index');
 
@@ -19,6 +20,9 @@ global.env = {
 
 // Create new Express app instance
 const app = express();
+
+// Configure CORS
+app.use(cors());
 
 // Setup middleware
 app.use(express.json());
