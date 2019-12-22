@@ -4,10 +4,10 @@ import {
     getDishesFail,
 } from '../actions';
 
-export const getDishes = restaurantId => async (dispatch, _getState, { api }) => {
+export const getDishes = restaurantId => async (dispatch, _getState, { dishAPI }) => {
     dispatch(getDishesStart());
     try {
-        const dishes = await api.getDishes(restaurantId);
+        const dishes = await dishAPI.getDishes(restaurantId);
         dispatch(getDishesSuccess(dishes));
     } catch(error) {
         dispatch(getDishesFail(error));

@@ -7,37 +7,32 @@ import {
     signUpSuccess,
     signOutSuccess
 } from "../actions"
-import {ErrorType} from "../constants";
 
-export const signIn = ({ login, password }, redirect) => async (dispatch, _getState, { api }) => {
+import {getErrorTypeByError} from "../../utils";
+
+export const signIn = ({ login, password }, redirect) => async (dispatch, _getState, { userAPI }) => {
     dispatch(signInStart());
     try {
-        const user = await api.login(login, password);
+        const user = await userAPI.signIn(login, password);
         dispatch(signInSuccess(user));
         redirect && redirect();
     } catch (error) {
-        console.log(error.message);
-        if (error.message === 'Invalid credentials') {
-            dispatch(signInFailure({ type: ErrorType.INCORRECT_CREDENTIALS }));
-        } else {
-            dispatch(signInFailure({ type: ErrorType.UNKNOWN_ERROR }));
-        }
+        dispatch(signInFailure({ type: getErrorTypeByError(error) }));
     }
 }
 
-export const signUp = (userData, redirect) => async (dispatch, _getState, { api }) => {
+export const signUp = (userData, redirect) => async (dispatch, _getState, { userAPI }) => {
     dispatch(signUpStart());
     try {
-        const user = await api.postUser(userData);
-        console.log(user);
+        const user = await userAPI.signUp(userData);
         dispatch(signUpSuccess(user));
         redirect && redirect();
     } catch (error) {
-        dispatch(signUpFailure(error));
+        dispatch(signUpFailure({ type: getErrorTypeByError(error) }));
     }
 }
 
-export const signOut = () => async (dispatch, _getState, { api }) => {
-    api.auth.resetToken();
+export const signOut = () => async (dispatch, _getState, { userAPI }) => {
+    userAPI.signOut();
     dispatch(signOutSuccess());
 }

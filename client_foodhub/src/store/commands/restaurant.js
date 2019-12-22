@@ -13,30 +13,30 @@ import {
 
 } from '../actions';
 
-export const createRestaurant = ( restaurant ) => async (dispatch, _getState, { api }) => {
+export const createRestaurant = ( restaurant ) => async (dispatch, _getState, { restaurantAPI }) => {
     dispatch(createRestaurantStart());
     try {
-        const response = await api.createRestaurant(restaurant);
+        const response = await restaurantAPI.createRestaurant(restaurant);
         dispatch(createRestaurantSuccess(response));
     } catch (error) {
         dispatch(createRestaurantFail(error));
     }
 }
 
-export const getRestaurants = () => async (dispatch, _getState, { api }) => {
+export const getRestaurants = () => async (dispatch, _getState, { restaurantAPI }) => {
     dispatch(getRestaurantsStart());
     try {
-        const restaurants = await api.getRestaurants();
+        const restaurants = await restaurantAPI.getRestaurants();
         dispatch(getRestaurantsSuccess(restaurants));
     } catch (error) {
         dispatch(getRestaurantsFail(error))
     }
 }
 
-export const getLocations = () => async (dispatch, _getState, { api }) => {
+export const getLocations = () => async (dispatch, _getState, { restaurantAPI }) => {
     dispatch(getLocationsStart());
     try {
-        const locations = await api.getLocations();
+        const locations = await restaurantAPI.getLocations();
         dispatch(getLocationsSuccess(locations));
     } catch (error) {
         dispatch(getLocationsFail(error));
