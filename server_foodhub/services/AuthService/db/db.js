@@ -27,7 +27,12 @@ function createNewUser(firstName, lastName, email) {
           [firstName, lastName, email],
           (err, result) => {
             if (err) reject(err);
-            else resolve(result);
+            else {
+              connection.end(connectionEndError => {
+                if (connectionEndError) reject(connectionEndError);
+                else resolve(result);
+              });
+            }
           }
         );
       })
@@ -44,7 +49,12 @@ function setupNewPasswordForUser(userID, passwordHash) {
           [userID, passwordHash],
           (err, result) => {
             if (err) reject(err);
-            else resolve(result);
+            else {
+              connection.end(connectionEndError => {
+                if (connectionEndError) reject(connectionEndError);
+                else resolve(result);
+              });
+            }
           }
         );
       })
@@ -64,7 +74,11 @@ function getUserByEmail(email) {
             else {
               // Try to retrieve user from result array
               const user = result.length ? result[0] : null;
-              resolve(user);
+
+              connection.end(connectionEndError => {
+                if (connectionEndError) reject(connectionEndError);
+                else resolve(user);
+              });
             }
           }
         );
@@ -85,7 +99,10 @@ function getUserById(id) {
             else {
               const [user] = result;
               if (user) {
-                resolve(user);
+                connection.end(connectionEndError => {
+                  if (connectionEndError) reject(connectionEndError);
+                  else resolve(user);
+                });
               } else {
                 reject('User does not exist!');
               }
