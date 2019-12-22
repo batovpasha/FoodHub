@@ -98,14 +98,14 @@ function getUserById(id) {
             if (err) reject(err);
             else {
               const [user] = result;
-              if (user) {
-                connection.end(connectionEndError => {
-                  if (connectionEndError) reject(connectionEndError);
-                  else resolve(user);
-                });
-              } else {
-                reject('User does not exist!');
-              }
+
+              connection.end(connectionEndError => {
+                if (connectionEndError) reject(connectionEndError);
+                else {
+                  if (user) resolve(user);
+                  else reject('User does not exist!');
+                }
+              });
             }
           }
         );
