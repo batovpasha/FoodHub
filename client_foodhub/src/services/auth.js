@@ -1,4 +1,4 @@
-export default class AuthService {
+class AuthSingleton {
     static storageKey = 'food-hub-client';
 
     constructor() {
@@ -13,9 +13,9 @@ export default class AuthService {
         this.writeToken(token);
     }
 
-    getStorageData = () => JSON.parse(localStorage.getItem(AuthService.storageKey));
+    getStorageData = () => JSON.parse(localStorage.getItem(AuthSingleton.storageKey));
 
-    setStorageData = data => localStorage.setItem(AuthService.storageKey, JSON.stringify(data))
+    setStorageData = data => localStorage.setItem(AuthSingleton.storageKey, JSON.stringify(data))
 
     readToken = () => {
         try {
@@ -34,14 +34,21 @@ export default class AuthService {
         try {
             const data = this.getStorageData();
             this.setStorageData({ ...data, token });
+            this.token = token;
             return { error: null };
         } catch (error) {
-            return { error }
+            return { error };
         }
     }
+
+    getAuthHeader = () => ({
+        'Authorization': `Bearer ${this.token}`,
+    })
 
     isStorageDataValid = data => (
         data && typeof data === 'object' &&
         'token' in data && typeof data.token === 'string'
     );
 }
+
+export default new AuthSingleton();
