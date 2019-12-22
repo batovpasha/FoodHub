@@ -5,4 +5,7 @@ export const routes = {
     dishes: '/:restaurant/dishes',
     home: '/',
     order: '/order',
-}
+    orderHistory: '/orderHistory',
+    account: '/account',
+    businessAccount: '/businessAccount',
+};
