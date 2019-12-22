@@ -6,9 +6,26 @@ import { ErrorType } from '../../utils';
 
 export const selectUserState = state => state.user;
 
+export const selectUserData = createSelector(
+    selectUserState,
+    user => user.get && user.get('data')
+);
+
+export const selectUserRole = createSelector(
+    selectUserData,
+    data => data.get && data.get('role')
+);
+
+export const selectIsUserProducer = createSelector(
+    selectUserRole,
+    role => role === 'producer'
+);
+
 export const selectIsAuthenticated = createSelector(
     selectUserState,
-    user => user.get('status') === ResourseStatus.READY && user.getIn(['data', 'email'])
+    user =>
+        user.get('status') === ResourseStatus.READY &&
+        user.getIn(['data', 'email'])
 );
 
 export const selectIsUserDataLoading = createSelector(
@@ -16,9 +33,8 @@ export const selectIsUserDataLoading = createSelector(
     user => user.get('status') === ResourseStatus.LOADING
 );
 
-export const selectIsUserErrorExist = createSelector(
-    selectUserState,
-    user => Boolean(user.getIn(['error', 'type']))
+export const selectIsUserErrorExist = createSelector(selectUserState, user =>
+    Boolean(user.getIn(['error', 'type']))
 );
 
 export const selectUserDataErrorMessage = createSelector(
