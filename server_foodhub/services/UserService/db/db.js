@@ -1,5 +1,3 @@
-'use strict';
-
 const mysql = require('mysql');
 
 const pool = mysql.createPool({
@@ -11,18 +9,16 @@ const pool = mysql.createPool({
 
 function getUserById(id) {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT * FROM users WHERE id = ?', [id], (err, result) => {
+    pool.query('SELECT * FROM users WHERE id = ?;', [id], (err, result) => {
       if (err) reject(err);
       else {
         const [user] = result;
+        resolve(user);
       }
     });
   });
 }
 
 module.exports = {
-  createNewUser,
-  setupNewPasswordForUser,
-  getUserByEmail,
   getUserById,
 };
