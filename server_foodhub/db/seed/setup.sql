@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS places
     place_name VARCHAR(255) UNIQUE NOT NULL,
     description TEXT NOT NULL,
     owner_id INT NOT NULL,
+    image BLOB,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -45,6 +46,7 @@ CREATE TABLE IF NOT EXISTS products
     price DOUBLE NOT NULL,
     is_active BOOLEAN DEFAULT TRUE NOT NULL,
     place_id INT NOT NULL,
+    image BLOB,
     FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE
 );
 
