@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 chai.should();
 
 describe('Auth', () => {
-  describe('/POST signUp', () => {
+  describe('POST /auth/signUp', () => {
     it('should create new user', done => {
       chai
         .request(server)
@@ -27,7 +27,7 @@ describe('Auth', () => {
     });
   });
 
-  describe('/POST signIn', () => {
+  describe('POST /auth/signIn', () => {
     it('should authenticate user and return token in response', done => {
       // Take current date and append it in milliseconds to user email for identification
       const date = new Date();
@@ -63,7 +63,7 @@ describe('Auth', () => {
     });
   });
 
-  describe('/GET tokenInfo', () => {
+  describe('GET /auth/tokenInfo', () => {
     it('should return token payload in response body', done => {
       // Take current date and append it in milliseconds to user email for identification
       const date = new Date();
@@ -106,6 +106,54 @@ describe('Auth', () => {
                   tokenInfoResponse.body.should.have.property('exp');
                   tokenInfoResponse.body.should.have.property('iat');
 
+                  done();
+                });
+            });
+        });
+    });
+  });
+
+  describe('POST /auth/changePassword', () => {
+    it('should authenticate user and return token in response', done => {
+      // Take current date and append it in milliseconds to user email for identification
+      const date = new Date();
+
+      /*
+       * Firstly, make request to sign up new user, then make
+       * a sign in request for current user, then make change password request 
+       * with given token
+       */
+      chai
+        .request(server)
+        .post('/auth/signUp')
+        .send({
+          firstName: 'TestFirstName',
+          lastName: 'TestLastName',
+          email: `test-email${date.getTime()}@test.com`,
+          password: 'test1',
+        })
+        .end((err, signUpResponse) => {
+          chai
+            .request(server)
+            .post('/auth/signIn')
+            .send({
+              email: `test-email${date.getTime()}@test.com`,
+              password: 'test1',
+            })
+            .end((err, signInResponse) => {
+              const token = signInResponse.body.token;
+
+              // Change password request
+              chai
+                .request(server)
+                .post('/auth/changePassword')
+                .set('Authorization', `Bearer ${token}`)
+                .send({
+                  oldPassword: 'test1',
+                  newPassword: 'test2',
+                })
+                .end((err, changePasswordResponse) => {
+                  changePasswordResponse.should.have.status(200);
                   done();
                 });
             });
