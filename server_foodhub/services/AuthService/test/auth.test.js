@@ -8,7 +8,7 @@ const server = require('../server');
 chai.use(chaiHttp);
 chai.should();
 
-describe('Auth', () => {
+describe('Auth service', () => {
   describe('POST /auth/signUp', () => {
     it('should create new user', done => {
       chai
