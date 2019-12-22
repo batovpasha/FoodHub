@@ -2,11 +2,14 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fetch = require('node-fetch');
 
 const {
   createNewUser,
   setupNewPasswordForUser,
   getUserByEmail,
+  getUserById,
+  updateUserPassword,
 } = require('../db/db');
 
 async function signUp(req, res) {
@@ -107,8 +110,68 @@ function tokenInfo(req, res) {
   }
 }
 
+async function changePassword(req, res) {
+  const authorization = req.get('Authorization');
+
+  // Server url
+  const url = `${env.server.PROTOCOL}://${env.server.HOST}:${env.server.PORT}`;
+
+  // Make request to validate the token
+  const response = await fetch(`${url}/auth/tokenInfo`, {
+    method: 'GET',
+    headers: {
+      Authorization: authorization,
+    },
+  });
+
+  if (response.status === 200) {
+    // Retrieve user id from token payload
+    const { id: userID } = await response.json();
+
+    const { oldPassword, newPassword } = req.body;
+
+    getUserById(userID)
+      .then(async user => {
+        if (user) {
+          // Compare old user password with its hash in db
+          const isMatch = await bcrypt.compare(oldPassword, user.password_hash);
+
+          if (isMatch) {
+            const hashingRoundsNumber = 8; // number of hashing rounds in bcrypt algorithm
+            const newPasswordHash = await bcrypt.hash(
+              newPassword,
+              hashingRoundsNumber
+            );
+
+            updateUserPassword(userID, newPasswordHash)
+              .then(() => {
+                res
+                  .status(200)
+                  .json({ message: 'Password updated successfully' });
+              })
+              .catch(error => {
+                console.error(error);
+                res.status(500).json({ error });
+              });
+          } else {
+            res.status(401).json({ error: 'Invalid password!' });
+          }
+        } else {
+          res.status(404).json({ error: 'User not found' });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ error });
+      });
+  } else {
+    res.sendStatus(response.status);
+  }
+}
+
 module.exports = {
   signUp,
   signIn,
   tokenInfo,
+  changePassword,
 };

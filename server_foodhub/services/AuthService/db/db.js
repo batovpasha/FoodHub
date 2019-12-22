@@ -92,7 +92,7 @@ function getUserById(id) {
     establishDbConnection()
       .then(connection => {
         connection.query(
-          'SELECT * FROM users WHERE id = ?',
+          'SELECT * FROM users JOIN auth_data ON users.id = auth_data.user_id WHERE id = ?',
           [id],
           (err, result) => {
             if (err) reject(err);
@@ -114,9 +114,32 @@ function getUserById(id) {
   });
 }
 
+function updateUserPassword(userID, newPasswordHash) {
+  return new Promise((resolve, reject) => {
+    establishDbConnection()
+      .then(connection => {
+        connection.query(
+          'UPDATE auth_data SET password_hash = ? WHERE user_id = ?',
+          [newPasswordHash, userID],
+          (err, result) => {
+            if (err) reject(err);
+            else {
+              connection.end(connectionEndError => {
+                if (connectionEndError) reject(connectionEndError);
+                else resolve(result);
+              });
+            }
+          }
+        );
+      })
+      .catch(reject);
+  });
+}
+
 module.exports = {
   createNewUser,
   setupNewPasswordForUser,
   getUserByEmail,
   getUserById,
+  updateUserPassword,
 };
