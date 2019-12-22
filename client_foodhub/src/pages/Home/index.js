@@ -65,7 +65,7 @@ export default function Home() {
         homeActions.push({
             caption: 'Manage business',
             icon: <StoreIcon {...iconProps} />,
-            onAction: () => console.log('manage business'),
+            onAction: () => routes.businessAccount,
         });
     }
 

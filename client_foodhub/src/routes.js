@@ -7,4 +7,5 @@ export const routes = {
     order: '/order',
     orderHistory: '/orderHistory',
     account: '/account',
+    businessAccount: '/businessAccount',
 };

@@ -4,10 +4,13 @@ import FetchFactory from '../fetch';
 export default class UserService {
     static auth = Auth;
 
-    fetch = FetchFactory(process.env.REACT_APP_API_BASE_URL);
+    fetch = FetchFactory(process.env.REACT_APP_USER_API_BASE_URL);
+    authFetch = FetchFactory(process.env.REACT_APP_AUTH_API_BASE_URL);
 
     signUp = async user => {
-        const response = await this.fetch.post('/auth/signUp', user, { auth: false });
+        const response = await this.authFetch.post('/auth/signUp', user, {
+            auth: false,
+        });
         if (response.ok) {
             const { email, password } = user;
             return this.signIn(email, password);
@@ -17,7 +20,11 @@ export default class UserService {
     };
 
     signIn = async (email, password) => {
-        const response = await this.fetch.post('/auth/signIn', { email, password }, { auth: false });
+        const response = await this.authFetch.post(
+            '/auth/signIn',
+            { email, password },
+            { auth: false }
+        );
         if (response.ok) {
             const { token } = await response.json();
             UserService.auth.writeToken(token);
@@ -28,23 +35,13 @@ export default class UserService {
     };
 
     loadUser = async () => {
-        const response = await this.fetch.get('/auth/tokenInfo');
-        if (response.ok) {
-            const { id } = await response.json();
-            return this.getUserById(id);
-        } else {
-            return this.handleInvalidResponse(response);
-        }
-    };
-
-    getUserById = async id => {
-        const response = await this.fetch.get(`/user/${id}`);
+        const response = await this.fetch.get('/user/me');
         if (response.ok) {
             return response.json();
         } else {
             return this.handleInvalidResponse(response);
         }
-    }
+    };
 
     signOut = () => UserService.auth.resetToken();
 
