@@ -7,6 +7,7 @@ import { getLocations, getRestaurants, selectIsRestaurantsLoading, selectAllLoca
 import Loading from '../../components/Loading';
 import RestaurantsList from '../../components/RestaurantsList';
 import Search from '../../components/Search';
+import { OrderStepper } from '../../components/OrderStepper';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -38,8 +39,16 @@ export default function Restaurants () {
 
     return (
         <div className={classes.root}>
-            <Search searchValue={searchValue} setSearchValue={setSearchValue} locations={locations} />
-            <RestaurantsList searchValue={searchValue} restaurants={restaurants} />
+            <Search
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                locations={locations}
+            />
+            <OrderStepper activeStep={0} />
+            <RestaurantsList
+                searchValue={searchValue}
+                restaurants={restaurants}
+            />
         </div>
     );
 }
