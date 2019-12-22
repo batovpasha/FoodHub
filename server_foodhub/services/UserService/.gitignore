@@ -1,0 +1,8 @@
+# Project dependencies
+node_modules/
+
+# VS Code configs
+.vs_code/
+
+# File with app environment variables
+.env

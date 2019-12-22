@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS places
     description TEXT NOT NULL,
     owner_id INT NOT NULL,
     image BLOB,
+    address VARCHAR(255) NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
