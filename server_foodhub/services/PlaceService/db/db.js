@@ -22,6 +22,19 @@ function insertPlace(placeName, description, ownerId, image, address) {
   });
 }
 
+function getAllPlaces() {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT id, place_name, description, owner_id, address FROM places;',
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+}
+
 module.exports = {
   insertPlace,
+  getAllPlaces,
 };

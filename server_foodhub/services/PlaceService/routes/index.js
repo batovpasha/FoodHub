@@ -21,4 +21,6 @@ module.exports = app => {
     auth,
     placeController.addPlace
   );
+
+  app.get('/place/list', auth, placeController.getPlaceList);
 };

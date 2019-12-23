@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-const { insertPlace } = require('../db/db');
+const { insertPlace, getAllPlaces } = require('../db/db');
 
 async function addPlace(req, res) {
   const { placeName, description, address, userId } = req.body;
@@ -36,10 +36,16 @@ async function addPlace(req, res) {
   }
 }
 
-async function getAllPlaces(req, res) {
-  
+async function getPlaceList(req, res) {
+  getAllPlaces()
+    .then(places => res.status(200).json(places))
+    .catch(error => {
+      console.error(error); 
+      res.status(500).json({ error });
+    });
 }
 
 module.exports = {
   addPlace,
+  getPlaceList,
 };
