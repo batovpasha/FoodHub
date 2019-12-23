@@ -22,10 +22,13 @@ CREATE TABLE IF NOT EXISTS orders
 (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     customer_id INT NOT NULL,
+    place_id INT NOT NULL,
     order_date TIMESTAMP DEFAULT NOW() NOT NULL,
+    ready_date TIMESTAMP DEFAULT NOW() NOT NULL,
     total_price DOUBLE NOT NULL,
     was_given_to_client BOOLEAN NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (customer_id) REFERENCES users(id)
+    FOREIGN KEY (customer_id) REFERENCES users(id),
+    FOREIGN KEY (place_id) REFERENCES places(id)
 );
 
 CREATE TABLE IF NOT EXISTS places
