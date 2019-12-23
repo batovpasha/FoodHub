@@ -10,6 +10,9 @@ import {
     signUpStart,
     changeUserRoleStart,
     changeUserRoleFailure,
+    changePasswordStart,
+    changePasswordFailure,
+    changePasswordSuccess,
 } from '../actions';
 import { ResourseStatus } from '../constants';
 
@@ -41,6 +44,9 @@ export const userReducer = handleActions(
                 .updateIn(['data', 'role'], () => role)
                 .updateIn(['error'], () => undefined),
 
+        [combineActions(changePasswordSuccess, changePasswordFailure)]: state =>
+            state.updateIn(['status'], () => ResourseStatus.READY),
+
         [combineActions(signInFailure, signUpFailure, changeUserRoleFailure)]: (
             state,
             { payload: { error } }
@@ -52,7 +58,8 @@ export const userReducer = handleActions(
         [combineActions(
             signInStart,
             signUpStart,
-            changeUserRoleStart
+            changeUserRoleStart,
+            changePasswordStart
         )]: state => state.updateIn(['status'], () => ResourseStatus.LOADING),
 
         SIGN_OUT_SUCCESS: () =>
