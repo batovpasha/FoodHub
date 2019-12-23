@@ -23,4 +23,5 @@ module.exports = app => {
   );
 
   app.get('/place/list', auth, placeController.getPlaceList);
+  app.get('/place/image', auth, placeController.getPlaceImage);
 };

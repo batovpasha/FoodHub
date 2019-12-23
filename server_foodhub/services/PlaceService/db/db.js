@@ -34,7 +34,24 @@ function getAllPlaces() {
   });
 }
 
+function getImage(placeId) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT image FROM places WHERE id = ?;',
+      [placeId],
+      (err, result) => {
+        if (err) reject(err);
+        else {
+          const image = result.length ? Buffer.from(result[0].image) : null;
+          resolve(image);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   insertPlace,
   getAllPlaces,
+  getImage,
 };
