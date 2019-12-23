@@ -15,6 +15,7 @@ import Dishes from './pages/Dishes';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
+import Account from './pages/Account';
 
 // Components
 import AppBar from './components/AppBar';
@@ -35,6 +36,11 @@ export default function App() {
                         component={Restaurants}
                     />
                     <ProtectedRoute exact path={routes.home} component={Home} />
+                    <ProtectedRoute
+                        exact
+                        path={routes.account}
+                        component={Account}
+                    />
                     <ProtectedRoute
                         exact
                         path={routes.dishes}

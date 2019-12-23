@@ -2,12 +2,15 @@
 import React, { useEffect } from 'react';
 // Instruments
 import { useDispatch, useSelector } from 'react-redux';
-import { getDishes, selectAllDishes, selectIsDishesLoading } from '../../store';
+import { getDishes, selectAllDishes, selectIsDishesLoading, selectPickedDishes } from '../../store';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { Typography, Fade } from '@material-ui/core';
 // Components
 import Loading from '../../components/Loading';
 import DishesList from '../../components/DishesList';
+import { OrderStepper } from '../../components/OrderStepper';
+import { OrderPopover } from '../../components/OrderPopover';
+
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
@@ -17,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
         maxWidth: '1380px',
+        marginBottom: 125,
     }
 }));
 
@@ -26,6 +30,8 @@ export default function Dishes (props) {
 
     const dishes = useSelector(selectAllDishes);
     const isLoading = useSelector(selectIsDishesLoading);
+
+    const orderedDishes = useSelector(selectPickedDishes);
 
     useEffect(() => {
         const restaurantId = props.match.params.restaurant;
@@ -37,10 +43,26 @@ export default function Dishes (props) {
     return (
         <div className={classes.root}>
             <div className={classes.content}>
-                <Typography variant="h3" style={{ marginTop: '10px', fontWeight: 'bold' }}>Заказ:</Typography>
-                <Typography variant="h6" style={{ marginBottom: '10px', color: 'gray' }}>Выберите блюда и наслаждайтесь</Typography>
-                <DishesList dishes={dishes}/>
+                <div style={{ marginTop: '40px' }}>
+                    <OrderStepper activeStep={1} />
+                </div>
+                <Typography
+                    variant="h3"
+                    style={{ marginTop: '10px', fontWeight: 'bold' }}
+                >
+                    Заказ:
+                </Typography>
+                <Typography
+                    variant="h6"
+                    style={{ marginBottom: '10px', color: 'gray' }}
+                >
+                    Выберите блюда и наслаждайтесь
+                </Typography>
+                <DishesList dishes={dishes} />
             </div>
+            <Fade in={orderedDishes.size}>
+                <OrderPopover />
+            </Fade>
         </div>
-    )
+    );
 }

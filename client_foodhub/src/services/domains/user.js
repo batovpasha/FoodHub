@@ -4,7 +4,7 @@ import FetchFactory from '../fetch';
 export default class UserService {
     static auth = Auth;
 
-    fetch = FetchFactory(process.env.REACT_APP_USER_API_BASE_URL);
+    fetch = FetchFactory(`${process.env.REACT_APP_USER_API_BASE_URL}/user`);
     authFetch = FetchFactory(process.env.REACT_APP_AUTH_API_BASE_URL);
 
     signUp = async user => {
@@ -35,15 +35,27 @@ export default class UserService {
     };
 
     loadUser = async () => {
-        const response = await this.fetch.get('/user/me');
+        const response = await this.fetch.get('/me');
         if (response.ok) {
-            return response.json();
+            const {
+                first_name: firstName,
+                last_name: lastName,
+                ...rest
+            } = await response.json();
+            return { firstName, lastName, ...rest };
         } else {
             return this.handleInvalidResponse(response);
         }
     };
 
     signOut = () => UserService.auth.resetToken();
+
+    changeUserRole = async role => {
+        const response = await this.fetch.put('/changeRole', { role });
+        if (!response.ok) {
+            return this.handleInvalidResponse(response);
+        }
+    };
 
     handleInvalidResponse = async response => {
         const payload = await response.json();
