@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, Typography, Checkbox } from '@material-ui/core';
 import { DishCountDialog } from '../DishCountDialog';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectDish, removeAllSelectedDishesById, selectPickedDishes } from '../../store';
+import { pickDish, removeDish, selectPickedDishes } from '../../store';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -40,41 +40,45 @@ const useStyles = makeStyles(theme => ({
 export default function Dish({ id, title, image, price, description }) {
     const classes = useStyles();
     const [ checked, setChecked ] = useState(false);
-    const [ count, setCount ] = useState(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [ count, setCount ] = useState(null);
 
     const orderedDishes = useSelector(selectPickedDishes);
 
     const dispatch = useDispatch();
 
-    const handleChange = ({ target: { checked } }) => setChecked(checked);
+    const handleChange = () => {
+        const newChecked = !checked;
+        setChecked(newChecked);
+
+        if (newChecked) {
+            setIsDialogOpen(true);
+            setCount(1);
+        }
+        else {
+            dispatch(removeDish(id, count));
+        }
+    }
 
     useEffect(() => {
         if (!orderedDishes.size) setChecked(false);
     }, [id, orderedDishes]);
 
     useEffect(() => {
-        if (checked) {
-            setIsDialogOpen(true);
-        } else if (count) {
-            dispatch(removeAllSelectedDishesById(id));
+        return () => {
+            dispatch(removeDish(id, count));
         }
-    }, [checked, count, dispatch, id])
+    }, [count, dispatch, id])
 
-    useEffect(() => {
-        if (!isDialogOpen && count) {
-            dispatch(selectDish(id, count))
-        }
-    }, [count, dispatch, id, isDialogOpen])
-
-    useEffect(() => {
-        return () => dispatch(removeAllSelectedDishesById(id));
-    }, [dispatch, id]);
+    const pickDishHandler = () => {
+        setIsDialogOpen(false);
+        dispatch(pickDish(id, count));
+    }
 
     return (
         <Grid item xs={6}>
             <Card
-                onClick={() => setChecked(prev => !prev)}
+                onClick={handleChange}
                 className={classes.card}
             >
                 <Grid container direction={'row'}>
@@ -124,6 +128,7 @@ export default function Dish({ id, title, image, price, description }) {
                 title={title}
                 isOpen={isDialogOpen}
                 setOpen={setIsDialogOpen}
+                click={pickDishHandler}
                 setCount={setCount}
                 count={count}
             />
