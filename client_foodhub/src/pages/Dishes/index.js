@@ -1,8 +1,8 @@
 // Core
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 // Instruments
 import { useDispatch, useSelector } from 'react-redux';
-import { getDishes, selectAllDishes, selectIsDishesLoading } from '../../store';
+import { getDishes, selectAllDishes, selectIsDishesLoading, selectPickedDishes } from '../../store';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Fade } from '@material-ui/core';
 // Components
@@ -31,11 +31,7 @@ export default function Dishes (props) {
     const dishes = useSelector(selectAllDishes);
     const isLoading = useSelector(selectIsDishesLoading);
 
-    const [orderPopover, setOrderPopover] = useState(false);
-
-    useEffect(() => {
-        setTimeout(() => setOrderPopover(true), 2000);
-    }, []);
+    const orderedDishes = useSelector(selectPickedDishes);
 
     useEffect(() => {
         const restaurantId = props.match.params.restaurant;
@@ -64,7 +60,7 @@ export default function Dishes (props) {
                 </Typography>
                 <DishesList dishes={dishes} />
             </div>
-            <Fade in={orderPopover}>
+            <Fade in={orderedDishes.size}>
                 <OrderPopover />
             </Fade>
         </div>
