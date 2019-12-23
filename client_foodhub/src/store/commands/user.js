@@ -1,3 +1,4 @@
+import { showNotification } from './notifications';
 import {
     signInStart,
     signInFailure,
@@ -13,8 +14,11 @@ import {
     changePasswordFailure,
     changePasswordSuccess,
 } from '../actions';
-
-import { getErrorTypeByError } from '../../utils';
+import {
+    getErrorTypeByError,
+    NotificationTypes,
+    getErrorMessageByType,
+} from '../../utils';
 
 export const signIn = ({ login, password }, redirect) => async (
     dispatch,
@@ -61,6 +65,12 @@ export const changeUserRole = (role, redirect) => async (
         await userAPI.changeUserRole(role);
         dispatch(changeUserRoleSuccess(role));
         redirect && redirect();
+        dispatch(
+            showNotification(
+                NotificationTypes.SUCCESS,
+                `User role successfuly changed to ${role}`
+            )
+        );
     } catch (error) {
         dispatch(changeUserRoleFailure({ type: getErrorTypeByError(error) }));
     }
@@ -75,7 +85,19 @@ export const changePassword = (oldPassword, newPassword) => async (
     try {
         await userAPI.changePassword(oldPassword, newPassword);
         dispatch(changePasswordSuccess());
+        dispatch(
+            showNotification(
+                NotificationTypes.SUCCESS,
+                'Password successfuly changed!'
+            )
+        );
     } catch (error) {
-        dispatch(changePasswordFailure({ type: getErrorTypeByError(error) }));
+        dispatch(changePasswordFailure());
+        dispatch(
+            showNotification(
+                NotificationTypes.ERROR,
+                getErrorMessageByType(getErrorTypeByError(error))
+            )
+        );
     }
 };

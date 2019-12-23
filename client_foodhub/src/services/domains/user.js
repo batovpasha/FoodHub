@@ -5,10 +5,10 @@ export default class UserService {
     static auth = Auth;
 
     fetch = FetchFactory(`${process.env.REACT_APP_USER_API_BASE_URL}/user`);
-    authFetch = FetchFactory(process.env.REACT_APP_AUTH_API_BASE_URL);
+    authFetch = FetchFactory(`${process.env.REACT_APP_AUTH_API_BASE_URL}/auth`);
 
     signUp = async user => {
-        const response = await this.authFetch.post('/auth/signUp', user, {
+        const response = await this.authFetch.post('/signUp', user, {
             auth: false,
         });
         if (response.ok) {
@@ -21,7 +21,7 @@ export default class UserService {
 
     signIn = async (email, password) => {
         const response = await this.authFetch.post(
-            '/auth/signIn',
+            '/signIn',
             { email, password },
             { auth: false }
         );
@@ -58,7 +58,13 @@ export default class UserService {
     };
 
     changePassword = async (oldPassword, newPassword) => {
-        // const
+        const response = await this.authFetch.post('/changePassword', {
+            oldPassword,
+            newPassword,
+        });
+        if (!response.ok) {
+            return this.handleInvalidResponse(response);
+        }
     };
 
     handleInvalidResponse = async response => {

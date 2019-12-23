@@ -14,10 +14,9 @@ import {
     selectUserDataErrorMessage,
     selectIsUserErrorExist,
     selectIsUserDataLoading,
+    changePassword,
 } from '../../store';
-import ErrorSnackBar from '../ErrorSnackBar';
-import { useHistory } from 'react-router';
-import { routes } from '../../routes';
+import SnackBar from '../SnackBar';
 import { useControlledInput } from '../../hooks';
 
 const useStyles = makeStyles(theme => ({
@@ -70,16 +69,6 @@ export default function ChangePasswordForm({ caption = 'Change Password' }) {
     const isError = useSelector(selectIsUserErrorExist);
     const errorMessage = useSelector(selectUserDataErrorMessage);
 
-    const history = useHistory();
-    const redirect = useCallback(() => {
-        history.push(routes.home);
-    }, [history]);
-
-    const dispatch = useDispatch();
-    const onSubmit = useCallback(() => {
-        redirect();
-    }, [redirect]);
-
     const [oldPswdValue, onOldPswdChange] = useControlledInput('');
     const [newPswdValue, onNewPswdChange] = useControlledInput('');
     const [confirmPswdValue, onConfirmPswdChange] = useControlledInput('');
@@ -93,6 +82,13 @@ export default function ChangePasswordForm({ caption = 'Change Password' }) {
         !confirmPswdValue.length ||
         !isNewPswdValid ||
         !isConfirmPswdValid;
+
+    const dispatch = useDispatch();
+    const onSubmit = useCallback(() => {
+        if (!isButtonDisabled) {
+            dispatch(changePassword(oldPswdValue, newPswdValue));
+        }
+    }, [dispatch, isButtonDisabled, newPswdValue, oldPswdValue]);
 
     return (
         <div>
@@ -172,7 +168,15 @@ export default function ChangePasswordForm({ caption = 'Change Password' }) {
                     )}
                 </form>
             </div>
-            <ErrorSnackBar isError={isError} message={errorMessage} />
+            <SnackBar
+                hidden={!isError}
+                variant="error"
+                message={errorMessage}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                }}
+            />
         </div>
     );
 }

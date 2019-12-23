@@ -37,3 +37,20 @@ export const getErrorTypeByError = error => {
             return ErrorType.UNKNOWN_ERROR;
     }
 };
+
+export const getErrorMessageByType = errorType => {
+    switch (errorType) {
+        case ErrorType.SIGN_IN_INVALID_CREDENTIALS:
+            return 'Incorrect credentials. Please, try again.';
+        case ErrorType.SESSION_EXPIRED:
+            return 'Session expired. Please try to sign in again.';
+        case ErrorType.SIGN_IN_UNKNOWN_USER:
+            return 'User with provided email does not exist. Please, try to sign in using another email.';
+        case ErrorType.SIGN_UP_INVALID_EMAIL:
+            return 'Format of provided email is invalid. Please, enter valid email.';
+        case ErrorType.SIGN_UP_DUPLICATED_EMAIL:
+            return 'User with provided email already exists. Please, try to sign in or use another email.';
+        default:
+            return 'Error. Please, try again.';
+    }
+};

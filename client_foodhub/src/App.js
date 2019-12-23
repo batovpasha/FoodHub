@@ -19,6 +19,7 @@ import Account from './pages/Account';
 
 // Components
 import AppBar from './components/AppBar';
+import Notifications from './components/Notifications';
 
 export default function App() {
     return (
@@ -26,6 +27,8 @@ export default function App() {
             <CssBaseline />
             <Router>
                 <AppBar />
+                <Notifications />
+
                 <Switch>
                     <Route exact path={routes.signIn} component={SignIn} />
                     <Route exact path={routes.signUp} component={SignUp} />

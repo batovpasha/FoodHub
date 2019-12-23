@@ -31,7 +31,7 @@ export const {
     changePasswordSuccess,
     changePasswordFailure,
 } = createActions({
-    CHANGE_USER_ROLE_START: () => ({}),
-    CHANGE_USER_ROLE_SUCCESS: () => ({}),
-    CHANGE_USER_ROLE_FAILURE: error => ({ error }),
+    CHANGE_PASSWORD_START: () => ({}),
+    CHANGE_PASSWORD_SUCCESS: () => ({}),
+    CHANGE_PASSWORD_FAILURE: error => ({ error }),
 });
