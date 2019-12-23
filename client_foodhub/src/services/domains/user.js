@@ -57,6 +57,10 @@ export default class UserService {
         }
     };
 
+    changePassword = async (oldPassword, newPassword) => {
+        // const
+    };
+
     handleInvalidResponse = async response => {
         const payload = await response.json();
         if (payload && payload.error) {

@@ -9,6 +9,9 @@ import {
     changeUserRoleStart,
     changeUserRoleSuccess,
     changeUserRoleFailure,
+    changePasswordStart,
+    changePasswordFailure,
+    changePasswordSuccess,
 } from '../actions';
 
 import { getErrorTypeByError } from '../../utils';
@@ -60,5 +63,19 @@ export const changeUserRole = (role, redirect) => async (
         redirect && redirect();
     } catch (error) {
         dispatch(changeUserRoleFailure({ type: getErrorTypeByError(error) }));
+    }
+};
+
+export const changePassword = (oldPassword, newPassword) => async (
+    dispatch,
+    _getState,
+    { userAPI }
+) => {
+    dispatch(changePasswordStart());
+    try {
+        await userAPI.changePassword(oldPassword, newPassword);
+        dispatch(changePasswordSuccess());
+    } catch (error) {
+        dispatch(changePasswordFailure({ type: getErrorTypeByError(error) }));
     }
 };

@@ -25,3 +25,13 @@ export const {
     CHANGE_USER_ROLE_SUCCESS: role => ({ role }),
     CHANGE_USER_ROLE_FAILURE: error => ({ error }),
 });
+
+export const {
+    changePasswordStart,
+    changePasswordSuccess,
+    changePasswordFailure,
+} = createActions({
+    CHANGE_USER_ROLE_START: () => ({}),
+    CHANGE_USER_ROLE_SUCCESS: () => ({}),
+    CHANGE_USER_ROLE_FAILURE: error => ({ error }),
+});
