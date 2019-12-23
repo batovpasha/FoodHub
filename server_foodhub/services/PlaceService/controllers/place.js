@@ -5,6 +5,8 @@ const {
   getAllPlaces,
   getImage,
   removePlace,
+  insertProduct,
+  getAllProducts,
 } = require('../db/db');
 
 async function addPlace(req, res) {
@@ -17,8 +19,6 @@ async function addPlace(req, res) {
       Authorization: req.get('Authorization'),
     },
   });
-
-  console.log(`${env.services.USER_SERVICE_URL}/user/me`);
 
   if (response.status === 200) {
     const user = await response.json();
@@ -83,9 +83,76 @@ function deletePlace(req, res) {
     });
 }
 
+async function addProduct(req, res) {
+  const { placeId, productName, description, price, userId } = req.body;
+  const { file } = req;
+
+  const response = await fetch(`${env.services.USER_SERVICE_URL}/user/me`, {
+    method: 'GET',
+    headers: {
+      Authorization: req.get('Authorization'),
+    },
+  });
+
+  if (response.status === 200) {
+    const user = await response.json();
+
+    if (user.role === 'producer') {
+      const allPlaces = await getAllPlaces();
+      const currentPlace = allPlaces.find(
+        place => place.id === parseInt(placeId)
+      );
+
+      if (!currentPlace) {
+        res.sendStatus(404);
+        return;
+      }
+
+      const currentUserIsOwnerOfCurrentPlace = currentPlace.owner_id === userId;
+
+      if (currentUserIsOwnerOfCurrentPlace) {
+        insertProduct(
+          productName,
+          description,
+          parseFloat(price),
+          placeId,
+          file.buffer
+        )
+          .then(() => res.status(201).end())
+          .catch(error => {
+            console.error(error);
+            res.status(500).json({ error });
+          });
+      } else {
+        res
+          .status(403)
+          .json({ error: 'User is not an owner of current place!' });
+      }
+    } else {
+      res
+        .status(403)
+        .json({ error: 'User must be a producer to add a product!' });
+    }
+  } else {
+    console.error('Error with user service');
+    res.sendStatus(500);
+  }
+}
+
+function getProductList(req, res) {
+  getAllProducts()
+    .then(products => res.status(200).json(products))
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error });
+    });
+}
+
 module.exports = {
   addPlace,
   getPlaceList,
   getPlaceImage,
   deletePlace,
+  addProduct,
+  getProductList,
 };

@@ -63,9 +63,52 @@ function removePlace(ownerId, placeId) {
   });
 }
 
+function insertProduct(productName, description, price, placeId, image) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `INSERT INTO products` +
+        `(product_name, description, price, place_id, image) ` +
+        `VALUES (?, ?, ?, ?, ?);`,
+      [productName, description, price, placeId, image],
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+}
+
+function removeProduct(productId) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'DELETE FROM products WHERE id = ?;',
+      [productId],
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+}
+
+function getAllProducts() {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT id, product_name, description, price, is_active, place_id FROM products;',
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+}
+
 module.exports = {
   insertPlace,
   getAllPlaces,
   getImage,
   removePlace,
+  insertProduct,
+  removeProduct,
+  getAllProducts,
 };
