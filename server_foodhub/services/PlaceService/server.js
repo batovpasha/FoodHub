@@ -27,7 +27,6 @@ app.use(cors());
 
 // Setup middleware
 app.use(express.json());
-app.use(auth);
 
 // Setup routes
 mountRoutes(app);

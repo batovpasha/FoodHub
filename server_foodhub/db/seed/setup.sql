@@ -21,11 +21,12 @@ CREATE TABLE IF NOT EXISTS auth_data
 CREATE TABLE IF NOT EXISTS places
 (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    place_name VARCHAR(255) UNIQUE NOT NULL,
+    place_name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     owner_id INT NOT NULL,
     image BLOB,
     address VARCHAR(255) NOT NULL,
+    UNIQUE(place_name, owner_id),
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
