@@ -13,9 +13,6 @@ import { selectIsAuthenticated, selectIsUserProducer } from '../../store';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        flexGrow: 1,
-    },
     logo: {
         width: '300px',
         height: '72px',
@@ -70,7 +67,7 @@ export default function Bar() {
     ]);
 
     return (
-        <div className={classes.root}>
+        <div>
             <AppBar position="static">
                 <Toolbar>
                     <div className={classes.wrapper}>

@@ -19,6 +19,23 @@ function getUserById(id) {
   });
 }
 
+function updateUserRole(userId, role) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'UPDATE users SET role = ? WHERE id = ?',
+      [role, userId],
+      (err, result) => {
+        if (err) reject(err);
+        else {
+          const success = Boolean(result.affectedRows);
+          resolve(success);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   getUserById,
+  updateUserRole,
 };

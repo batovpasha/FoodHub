@@ -19,21 +19,12 @@ const useStyles = makeStyles(theme => ({
     grid: {
         flexGrow: 1,
     },
-    button: {
-        margin: theme.spacing(5),
-    },
 }));
 
 export default function Home() {
     const classes = useStyles();
 
-    // const dispatch = useDispatch();
-    // const onSignOut = useCallback(() => {
-    //     dispatch(signOut());
-    // }, [dispatch]);
-
     const history = useHistory();
-
     const redirect = useCallback(path => history.push(path), [history]);
 
     const iconProps = {
@@ -83,14 +74,6 @@ export default function Home() {
                     </Grid>
                 ))}
             </Grid>
-            {/* <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={onSignOut}
-            >
-                Sign out
-            </Button> */}
         </Container>
     );
 }

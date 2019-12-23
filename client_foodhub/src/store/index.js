@@ -2,10 +2,10 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import {configureServices, preloadUserData} from '../services';
+import { configureServices, preloadUserData } from '../services';
 
 import { rootReducer } from './reducers';
-import { signInSuccess, signInFailure} from './actions';
+import { signInSuccess, signInFailure } from './actions';
 
 export default function configureStore(preloadedState) {
     const services = configureServices();
@@ -18,7 +18,7 @@ export default function configureStore(preloadedState) {
 
     preloadUserData(services.userAPI)
         .then(user => store.dispatch(signInSuccess(user)))
-        .catch(() => store.dispatch(signInFailure()))
+        .catch(() => store.dispatch(signInFailure()));
 
     return store;
 }
