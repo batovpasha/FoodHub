@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { ResourseStatus } from '../constants';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 export const selectDishesState = state => state.dish;
 
@@ -24,9 +24,7 @@ export const selectPickedDishes = createSelector(selectDishesState, dishesStore 
         .forEach((value, key) => {
             const count = value.get('count');
             const dish = dishes.find(dish => dish.id === Number(key));
-            for (let i = 0; i < count; i++) {
-                result = result.push(dish)
-            }
+            result = result.push(Map({ ...dish, count }));
         })
 
     return result;

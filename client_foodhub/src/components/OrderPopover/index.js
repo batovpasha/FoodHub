@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Typography, Button, Card, Chip } from '@material-ui/core';
 import { shadows } from '@material-ui/system';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { DishCountDialog } from '../DishCountDialog';
 import { useHistory } from 'react-router';
 import { routes } from '../../routes';
-import { selectPickedDishes, removeSelectedDishById } from '../../store';
+import { selectPickedDishes, removeDish } from '../../store';
 import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
@@ -42,6 +43,33 @@ export const OrderPopover = (props) => {
         history.replace(routes.order);
     };
 
+    const getLabel = ( label, count ) => {
+        if (count > 1) {
+            return label + ' x ' + count;
+        }
+        return label;
+    }
+
+    const [isOpen, setOpen] = useState(false);
+    const [countToDelete, setCountToDelete] = useState(null);
+    const [maxInDialogValue, setMaxInDialogValue] = useState(null);
+
+    const [activeDish, setActiveDish] = useState(null);
+
+    const setDish = (dish) => {
+        const count = dish.get('count');
+
+        setMaxInDialogValue(count);
+        setCountToDelete(1);
+        setActiveDish(dish);
+        setOpen(true);
+    }
+
+    const deleteDish = (id, count) => {
+        dispatch(removeDish(id, count));
+        setOpen(false);
+    }
+
     return (
         <Card {...props} className={classes.root}>
             <div
@@ -56,11 +84,17 @@ export const OrderPopover = (props) => {
                             return (
                                 <Chip
                                     style={{ marginRight: '10px' }}
-                                    label={dish.title}
+                                    label={getLabel(
+                                        dish.get('title'),
+                                        dish.get('count')
+                                    )}
                                     onDelete={() =>
-                                        dispatch(
-                                            removeSelectedDishById(dish.id)
-                                        )
+                                        dish.get('count') > 1
+                                            ? setDish(dish)
+                                            : deleteDish(
+                                                  dish.get('id'),
+                                                  dish.get('count')
+                                              )
                                     }
                                 />
                             );
@@ -72,7 +106,10 @@ export const OrderPopover = (props) => {
                     <span>
                         {orderedDishes.size
                             ? orderedDishes
-                                  .map(dish => dish.price)
+                                  .map(
+                                      dish =>
+                                          dish.get('price') * dish.get('count')
+                                  )
                                   .reduce((acc, value) => acc + value) + ' грн'
                             : null}
                     </span>
@@ -90,6 +127,15 @@ export const OrderPopover = (props) => {
                     Заказать
                 </Button>
             </div>
+            <DishCountDialog
+                isOpen={isOpen}
+                setOpen={setOpen}
+                count={countToDelete}
+                setCount={setCountToDelete}
+                title={'удаления'}
+                max={maxInDialogValue}
+                click={() => deleteDish(activeDish.get('id'), countToDelete)}
+            />
         </Card>
     );
 }

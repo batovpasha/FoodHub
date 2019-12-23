@@ -13,3 +13,4 @@ export const getDishes = restaurantId => async (dispatch, _getState, { dishAPI }
         dispatch(getDishesFail(error));
     }
 }
+
