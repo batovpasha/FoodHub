@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 import { ResourseStatus } from '../constants';
 
-import { ErrorType } from '../../utils';
+import { getErrorMessageByType } from '../../utils';
 
 export const selectUserState = state => state.user;
 
@@ -42,19 +42,6 @@ export const selectUserDataErrorMessage = createSelector(
     (user, isError) => {
         if (!isError) return;
         const errorType = user.getIn(['error', 'type']);
-        switch (errorType) {
-            case ErrorType.SIGN_IN_INVALID_CREDENTIALS:
-                return 'Incorrect email or password. Please, try again.';
-            case ErrorType.SESSION_EXPIRED:
-                return 'Session expired. Please try to sign in again.';
-            case ErrorType.SIGN_IN_UNKNOWN_USER:
-                return 'User with provided email does not exist. Please, try to sign in using another email.';
-            case ErrorType.SIGN_UP_INVALID_EMAIL:
-                return 'Format of provided email is invalid. Please, enter valid email.';
-            case ErrorType.SIGN_UP_DUPLICATED_EMAIL:
-                return 'User with provided email already exists. Please, try to sign in or use another email.';
-            default:
-                return 'Error. Please, try again.';
-        }
+        getErrorMessageByType(errorType);
     }
 );

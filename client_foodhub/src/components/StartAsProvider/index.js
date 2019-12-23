@@ -11,7 +11,7 @@ import {
     changeUserRole,
 } from '../../store';
 import Loading from '../Loading';
-import ErrorSnackBar from '../ErrorSnackBar';
+import SnackBar from '../SnackBar';
 import { useHistory } from 'react-router';
 import { routes } from '../../routes';
 
@@ -83,7 +83,15 @@ export default function StartAsProducer({ caption = 'Business opportunity' }) {
                             Start as Producer
                         </Button>
                     </Grid>
-                    <ErrorSnackBar isError={isError} message={errorMessage} />
+                    <SnackBar
+                        hidden={!isError}
+                        variant="error"
+                        message={errorMessage}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                    />
                 </Grid>
             )}
         </div>

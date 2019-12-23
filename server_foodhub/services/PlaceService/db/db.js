@@ -22,6 +22,36 @@ function insertPlace(placeName, description, ownerId, image, address) {
   });
 }
 
+function getAllPlaces() {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT id, place_name, description, owner_id, address FROM places;',
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+}
+
+function getImage(placeId) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT image FROM places WHERE id = ?;',
+      [placeId],
+      (err, result) => {
+        if (err) reject(err);
+        else {
+          const image = result.length ? Buffer.from(result[0].image) : null;
+          resolve(image);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   insertPlace,
+  getAllPlaces,
+  getImage,
 };
