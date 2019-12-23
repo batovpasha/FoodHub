@@ -1,8 +1,11 @@
 // Core
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Instruments
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Card, Typography, Checkbox } from '@material-ui/core';
+import { DishCountDialog } from '../DishCountDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectDish, removeAllSelectedDishesById, selectPickedDishes } from '../../store';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -34,14 +37,46 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function Dish({ title, image, price, description }) {
+export default function Dish({ id, title, image, price, description }) {
     const classes = useStyles();
     const [ checked, setChecked ] = useState(false);
+    const [ count, setCount ] = useState(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const orderedDishes = useSelector(selectPickedDishes);
+
+    const dispatch = useDispatch();
 
     const handleChange = ({ target: { checked } }) => setChecked(checked);
+
+    useEffect(() => {
+        if (!orderedDishes.size) setChecked(false);
+    }, [id, orderedDishes]);
+
+    useEffect(() => {
+        if (checked) {
+            setIsDialogOpen(true);
+        } else if (count) {
+            dispatch(removeAllSelectedDishesById(id));
+        }
+    }, [checked, count, dispatch, id])
+
+    useEffect(() => {
+        if (!isDialogOpen && count) {
+            dispatch(selectDish(id, count))
+        }
+    }, [count, dispatch, id, isDialogOpen])
+
+    useEffect(() => {
+        return () => dispatch(removeAllSelectedDishesById(id));
+    }, [dispatch, id]);
+
     return (
-        <Grid item xs={6} onClick={() => setChecked(prev => !prev)}>
-            <Card className={classes.card}>
+        <Grid item xs={6}>
+            <Card
+                onClick={() => setChecked(prev => !prev)}
+                className={classes.card}
+            >
                 <Grid container direction={'row'}>
                     <Grid item xs={4}>
                         <img
@@ -51,14 +86,26 @@ export default function Dish({ title, image, price, description }) {
                         />
                     </Grid>
                     <Grid className={classes.content} item xs={8}>
-                        <Typography className={classes.title} variant={'h5'} gutterBottom>
+                        <Typography
+                            className={classes.title}
+                            variant={'h5'}
+                            gutterBottom
+                        >
                             {title}
                         </Typography>
                         <div className={classes.description}>
-                            <span>{ description }</span>
+                            <span>{description}</span>
                         </div>
-                        <div className={classes.description} style={{ justifyContent: 'flex-end' }}>
-                            <Typography variant={'h4'} style={{ color: '#ff7043'}}>{ price } грн</Typography>
+                        <div
+                            className={classes.description}
+                            style={{ justifyContent: 'flex-end' }}
+                        >
+                            <Typography
+                                variant={'h4'}
+                                style={{ color: '#ff7043' }}
+                            >
+                                {price} грн
+                            </Typography>
                         </div>
                         <Checkbox
                             className={classes.checkbox}
@@ -72,6 +119,14 @@ export default function Dish({ title, image, price, description }) {
                     </Grid>
                 </Grid>
             </Card>
+
+            <DishCountDialog
+                title={title}
+                isOpen={isDialogOpen}
+                setOpen={setIsDialogOpen}
+                setCount={setCount}
+                count={count}
+            />
         </Grid>
     );
 }
