@@ -1,6 +1,11 @@
 const fetch = require('node-fetch');
 
-const { insertPlace, getAllPlaces, getImage } = require('../db/db');
+const {
+  insertPlace,
+  getAllPlaces,
+  getImage,
+  removePlace,
+} = require('../db/db');
 
 async function addPlace(req, res) {
   const { placeName, description, address, userId } = req.body;
@@ -36,7 +41,7 @@ async function addPlace(req, res) {
   }
 }
 
-async function getPlaceList(req, res) {
+function getPlaceList(req, res) {
   getAllPlaces()
     .then(places => res.status(200).json(places))
     .catch(error => {
@@ -45,7 +50,7 @@ async function getPlaceList(req, res) {
     });
 }
 
-async function getPlaceImage(req, res) {
+function getPlaceImage(req, res) {
   const { id } = req.query;
 
   if (id) {
@@ -66,8 +71,21 @@ async function getPlaceImage(req, res) {
   }
 }
 
+function deletePlace(req, res) {
+  const { userId } = req.body;
+  const { id: placeId } = req.query;
+
+  removePlace(userId, placeId)
+    .then(() => res.status(200).end())
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error });
+    });
+}
+
 module.exports = {
   addPlace,
   getPlaceList,
   getPlaceImage,
+  deletePlace,
 };

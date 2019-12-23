@@ -50,8 +50,22 @@ function getImage(placeId) {
   });
 }
 
+function removePlace(ownerId, placeId) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'DELETE FROM places WHERE owner_id = ? AND id = ?;',
+      [ownerId, placeId],
+      (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      }
+    );
+  });
+}
+
 module.exports = {
   insertPlace,
   getAllPlaces,
   getImage,
+  removePlace,
 };

@@ -21,7 +21,7 @@ module.exports = app => {
     auth,
     placeController.addPlace
   );
-
+  app.delete('/place/delete', auth, placeController.deletePlace);
   app.get('/place/list', auth, placeController.getPlaceList);
   app.get('/place/image', placeController.getPlaceImage);
 };
