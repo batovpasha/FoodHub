@@ -8,12 +8,11 @@ export const selectUserState = state => state.user;
 
 export const selectUserData = createSelector(
     selectUserState,
-    user => user.get && user.get('data')
+    user => user.toJS().data
 );
 
-export const selectUserRole = createSelector(
-    selectUserData,
-    data => data.get && data.get('role')
+export const selectUserRole = createSelector(selectUserState, user =>
+    user.getIn(['data', 'role'])
 );
 
 export const selectIsUserProducer = createSelector(
