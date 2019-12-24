@@ -54,7 +54,7 @@ function removePlace(ownerId, placeId) {
   return new Promise((resolve, reject) => {
     pool.query(
       'DELETE FROM places WHERE owner_id = ? AND id = ?;',
-      [ownerId, placeId],
+      [ownerId, parseInt(placeId)],
       (err, result) => {
         if (err) reject(err);
         else resolve(result);

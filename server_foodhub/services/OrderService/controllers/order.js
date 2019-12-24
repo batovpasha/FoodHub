@@ -1,6 +1,10 @@
 const fetch = require('node-fetch');
 
-const { insertOrder, insertProductByOrder } = require('../db/db');
+const {
+  insertOrder,
+  insertProductByOrder,
+  getOrdersByCustomerId,
+} = require('../db/db');
 
 async function addOrder(req, res) {
   try {
@@ -51,6 +55,20 @@ async function addOrder(req, res) {
   }
 }
 
+function getOrdersByCustomer(req, res) {
+  const { userId } = req.body;
+
+  getOrdersByCustomer(userId)
+    .then(orders => {
+      console.log(orders);
+      res.end();
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
 module.exports = {
   addOrder,
+  getOrdersByCustomer,
 };
