@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 
 // Middleware
 const cors = require('cors');
+const auth = require('./middleware/auth');
 
 // Load all environment variables from .env file to process.env
 dotenv.config();
