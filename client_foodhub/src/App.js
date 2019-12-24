@@ -5,6 +5,7 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProducerProtectedRoute from './components/ProducerProtectedRoute';
 
 // Pages
 import { routes } from './routes';
@@ -17,6 +18,8 @@ import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Account from './pages/Account';
 import AddPlace from './pages/AddPlace';
+import BusinessAccount from './pages/BusinessAccount';
+import AddProduct from './pages/AddProduct';
 
 // Components
 import AppBar from './components/AppBar';
@@ -55,10 +58,21 @@ export default function App() {
                         path={routes.order}
                         component={MakeOrder}
                     />
-                    <ProtectedRoute
+
+                    <ProducerProtectedRoute
+                        exact
+                        path={routes.businessAccount}
+                        component={BusinessAccount}
+                    />
+                    <ProducerProtectedRoute
                         exact
                         path={routes.placeAdd}
                         component={AddPlace}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={routes.productAdd}
+                        component={AddProduct}
                     />
                 </Switch>
             </Router>

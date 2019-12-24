@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TabPanels from '../../components/TabPanels';
 import SignOutButton from '../../components/SignOutButton';
+import PlacesList from '../../components/PlacesList';
+import { useDispatch } from 'react-redux';
+import { fetchPlaces } from '../../store';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -14,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 const panels = [
     {
         label: 'Places',
-        component: 'Places',
+        component: <PlacesList />,
     },
     {
         label: 'Products',
@@ -28,6 +31,11 @@ const panels = [
 
 export default function BusinessAccount() {
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchPlaces());
+    }, [dispatch]);
 
     return (
         <TabPanels

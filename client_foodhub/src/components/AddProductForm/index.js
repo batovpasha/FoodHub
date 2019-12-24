@@ -8,10 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addPlace, selectIsPlacesLoading } from '../../store';
-import { routes } from '../../routes';
+import { addProduct } from '../../store';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -45,34 +44,36 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function AddPlaceForm() {
+export default function AddProductForm() {
     const classes = useStyles();
 
     const history = useHistory();
-    const redirect = useCallback(() => history.push(routes.businessAccount), [
-        history,
-    ]);
+    const placeId = history.location.pathname.split('/')[1];
+    // const redirect = useCallback(() => history.push('/'), [history]);
 
     const dispatch = useDispatch();
     const onSubmit = useCallback(
         e => {
             const formData = new FormData(e.target);
 
-            const placeName = formData.get('place-name');
-            const address = formData.get('place-address');
-            const description = formData.get('place-description');
-            const placeImage = formData.get('place-picture');
+            const productName = formData.get('product-name');
+            const description = formData.get('product-description');
+            const productImage = formData.get('product-picture');
+            const productPrice = formData.get('product-price');
 
             dispatch(
-                addPlace(
-                    { placeName, description, address, placeImage },
-                    redirect
-                )
+                addProduct({
+                    placeId,
+                    productName,
+                    description,
+                    productImage,
+                    price: productPrice,
+                })
             );
 
             e.preventDefault();
         },
-        [dispatch, redirect]
+        [dispatch, placeId]
     );
 
     const [isFileLoading, setIsFileLoading] = useState(false);
@@ -89,8 +90,6 @@ export default function AddPlaceForm() {
         reader.readAsDataURL(file);
     }, []);
 
-    const isProcessing = useSelector(selectIsPlacesLoading);
-
     return (
         <Container component="main" maxWidth="md">
             <CssBaseline />
@@ -99,7 +98,7 @@ export default function AddPlaceForm() {
                     <StoreIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Add Place
+                    Add Product
                 </Typography>
                 <form className={classes.form} onSubmit={onSubmit}>
                     <TextField
@@ -107,19 +106,21 @@ export default function AddPlaceForm() {
                         margin="normal"
                         required
                         fullWidth
-                        id="place-name"
-                        label="Place Name"
-                        name="place-name"
+                        id="product-name"
+                        label="Product Name"
+                        name="product-name"
                         autoFocus
                     />
                     <TextField
+                        type="number"
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        id="place-address"
-                        label="Place Address"
-                        name="place-address"
+                        id="product-price"
+                        label="Product Price"
+                        name="product-price"
+                        autoFocus
                     />
                     <TextField
                         variant="outlined"
@@ -128,20 +129,20 @@ export default function AddPlaceForm() {
                         fullWidth
                         multiline
                         rows="4"
-                        name="place-description"
-                        label="Place Description"
-                        id="place-description"
+                        name="product-description"
+                        label="Product Description"
+                        id="product-description"
                     />
                     <div className={classes.uploadContainer}>
                         <input
                             accept="image/*"
                             className={classes.input}
-                            id="place-picture"
-                            name="place-picture"
+                            id="product-picture"
+                            name="product-picture"
                             type="file"
                             onChange={onChange}
                         />
-                        <label htmlFor="place-picture">
+                        <label htmlFor="product-picture">
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -159,25 +160,18 @@ export default function AddPlaceForm() {
                             </Typography>
                         )}
                         {isFileLoading && (
-                            <CircularProgress size={20} color="secondary" />
+                            <CircularProgress color="secondary" />
                         )}
                     </div>
-                    {isProcessing ? (
-                        <CircularProgress
-                            className={classes.submit}
-                            color="primary"
-                        />
-                    ) : (
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Add Place
-                        </Button>
-                    )}
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Add Product
+                    </Button>
                 </form>
             </div>
         </Container>

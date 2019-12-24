@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 // Instruments
 import { useDispatch, useSelector } from 'react-redux';
-import { getDishes, selectAllDishes, selectIsDishesLoading, selectPickedDishes } from '../../store';
+import { getProducts, selectAllDishes, selectIsDishesLoading, selectPickedDishes } from '../../store';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Fade } from '@material-ui/core';
 // Components
@@ -35,7 +35,7 @@ export default function Dishes (props) {
 
     useEffect(() => {
         const restaurantId = props.match.params.restaurant;
-        dispatch(getDishes(restaurantId));
+        dispatch(getProducts(restaurantId));
     }, [dispatch, props.match.params.restaurant]);
 
     if (isLoading) return <Loading />;
