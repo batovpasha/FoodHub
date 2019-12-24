@@ -2,36 +2,36 @@ import React, { useState, useCallback } from 'react';
 import { Typography, Button, TextField } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { sendOrder } from '../../store';
 import { selectUserData } from '../../store/selectors/user';
-import { routes }  from '../../routes';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
         alignSelf: 'center',
-        margin:  theme.spacing(1),
+        margin: theme.spacing(1),
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
     },
     title: {
-        margin:  theme.spacing(1),
+        margin: theme.spacing(1),
     },
     row: {
         display: 'flex',
-        margin:  theme.spacing(1),
+        margin: theme.spacing(1),
     },
     field: {
         flex: 1,
-        margin:  theme.spacing(0.5),
-    }
+        margin: theme.spacing(0.5),
+    },
 }));
 
 export default function OrderForm({ orderInfo }) {
@@ -42,35 +42,37 @@ export default function OrderForm({ orderInfo }) {
     const handleEmailChange = ({ target: { value } }) => setEmail(value);
     const handleCommentChange = ({ target: { value } }) => setComment(value);
 
-    const { firstName, lastName, email : mail } = useSelector(selectUserData);
+    const { firstName, lastName, email: mail } = useSelector(selectUserData);
 
-    const history = useHistory()
-    const redirect = useCallback(() => history.push(routes.orderHistory), [history]);
+    const history = useHistory();
+    const redirect = useCallback(() => history.push(routes.home), [history]);
 
     const [name, setName] = useState(firstName + ' ' + lastName);
     const [email, setEmail] = useState(mail);
-    const [ time, setTime ] = useState(new Date());
+    const [time, setTime] = useState(new Date());
     const [comment, setComment] = useState('');
 
     const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault();
         // normalize products
 
-        const { products : rawProducts , placeId } = orderInfo;
+        const { products: rawProducts, placeId } = orderInfo;
 
         const products = {};
-        rawProducts.forEach((product) => products[product.id] = product.count);
+        rawProducts.forEach(product => (products[product.id] = product.count));
 
         const data = {
             placeId,
-            readyDate: time.toISOString().slice(0, 19).replace('T', ' '),
-            products
+            readyDate: time
+                .toISOString()
+                .slice(0, 19)
+                .replace('T', ' '),
+            products,
         };
 
         dispatch(sendOrder(data, redirect));
-
     };
 
     return (
@@ -131,7 +133,11 @@ export default function OrderForm({ orderInfo }) {
                     />
                 </div>
                 <div className={classes.row}>
-                    <Button type="submit" className={classes.field} variant="contained">
+                    <Button
+                        type="submit"
+                        className={classes.field}
+                        variant="contained"
+                    >
                         Подтвердить
                     </Button>
                 </div>
@@ -139,4 +145,3 @@ export default function OrderForm({ orderInfo }) {
         </div>
     );
 }
-

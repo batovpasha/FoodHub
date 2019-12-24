@@ -62,7 +62,7 @@ export default function DishCard({
                     <img
                         className={classes.image}
                         alt={'alt'}
-                        src={`${process.env.REACT_APP_PLACE_API_BASE_URL}/place/image?id=${id}`}
+                        src={`${process.env.REACT_APP_PLACE_API_BASE_URL}/place/product/image?id=${id}`}
                     />
                 </Grid>
                 <Grid className={classes.content} item xs={8}>

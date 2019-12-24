@@ -30,12 +30,17 @@ export default function RestaurantsList({ searchValue, restaurants }) {
                 <Grid container spacing={3}>
                     {restaurants
                         .filter(r =>
-                            r.name
+                            r['place_name']
                                 .toLowerCase()
                                 .includes(searchValue.toLowerCase())
                         )
-                        .map((restaurant, index) => (
-                            <Restaurant key={index} {...restaurant} />
+                        .map(restaurant => (
+                            <Restaurant
+                                {...restaurant}
+                                name={restaurant['place_name']}
+                                key={restaurant.id}
+                                image={`${process.env.REACT_APP_PLACE_API_BASE_URL}/place/image?id=${restaurant.id}`}
+                            />
                         ))}
                 </Grid>
             </Grid>

@@ -29,7 +29,6 @@ export default function ProductListByPlaces() {
 
     const dishesByPlace = useSelector(selectDishesByPlace);
     const isLoading = useSelector(selectIsDishesLoading);
-    console.log(dishesByPlace);
 
     return (
         <div className={classes.list}>

@@ -2,7 +2,12 @@
 import React, { useEffect } from 'react';
 // Instruments
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts, selectAllDishes, selectIsDishesLoading, selectPickedDishes } from '../../store';
+import {
+    getProducts,
+    selectAllDishes,
+    selectIsDishesLoading,
+    selectPickedDishes,
+} from '../../store';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Fade } from '@material-ui/core';
 // Components
@@ -19,12 +24,13 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
     content: {
+        width: '100%',
         maxWidth: '1380px',
         marginBottom: 125,
-    }
+    },
 }));
 
-export default function Dishes (props) {
+export default function Dishes(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
@@ -60,7 +66,7 @@ export default function Dishes (props) {
                 </Typography>
                 <DishesList dishes={dishes} />
             </div>
-            <Fade in={orderedDishes.size}>
+            <Fade in={Boolean(orderedDishes.size)}>
                 <OrderPopover />
             </Fade>
         </div>

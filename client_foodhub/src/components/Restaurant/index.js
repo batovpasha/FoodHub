@@ -86,13 +86,18 @@ export default function Restaurant(props) {
                         <FastfoodIcon fontSize={'inherit'} />
                         <span style={{ marginLeft: '5px' }}>{description}</span>
                     </div>
-                    {onDelete && (
+                    {onDelete ? (
                         <IconButton
                             className={classes.delete}
                             onClick={onDelete}
                         >
                             <DeleteIcon color="primary" />
                         </IconButton>
+                    ) : (
+                        <FastfoodIcon
+                            className={classes.delete}
+                            color="primary"
+                        />
                     )}
                 </Grid>
             </Grid>
