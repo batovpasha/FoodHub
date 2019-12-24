@@ -1,23 +1,22 @@
 import { fromJS } from 'immutable';
 import { handleActions } from 'redux-actions';
 
+import { ResourseStatus } from '../constants';
+
 import {
     sendOrderStart,
-    sendOrderSuccess,
-    sendOrderFail,
+    sendOrderFinish
 } from '../actions';
 
 const initialState = fromJS({
-    status: 'READY',
+    status: ResourseStatus.READY,
 });
 
 export const orderReducer = handleActions({
     [sendOrderStart]: state => state
-        .set('status', 'SENDING'),
-    [sendOrderSuccess]: state => state
-        .set('status', 'SENT'),
-    [sendOrderFail]: state => state
-        .set('status', 'ERROR'),
+        .set('status', ResourseStatus.LOADING),
+    [sendOrderFinish]: state => state
+        .set('status', ResourseStatus.READY),
 }, initialState)
 
 

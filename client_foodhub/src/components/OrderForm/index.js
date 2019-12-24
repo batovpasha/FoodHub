@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Typography, Button, TextField } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -6,8 +6,11 @@ import {
   KeyboardTimePicker,
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { sendOrder } from '../../store';
 import { selectUserData } from '../../store/selectors/user';
+import { routes }  from '../../routes';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -34,17 +37,22 @@ const useStyles = makeStyles(theme => ({
 export default function OrderForm({ orderInfo }) {
     const classes = useStyles();
 
-    const handleDateChange = date => setTime(date.toISOString());
+    const handleDateChange = date => setTime(date);
     const handleNameChange = ({ target: { value } }) => setName(value);
     const handleEmailChange = ({ target: { value } }) => setEmail(value);
     const handleCommentChange = ({ target: { value } }) => setComment(value);
 
     const { firstName, lastName, email : mail } = useSelector(selectUserData);
 
+    const history = useHistory()
+    const redirect = useCallback(() => history.push(routes.orderHistory), [history]);
+
     const [name, setName] = useState(firstName + ' ' + lastName);
     const [email, setEmail] = useState(mail);
     const [ time, setTime ] = useState(new Date());
     const [comment, setComment] = useState('');
+
+    const dispatch = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -57,9 +65,11 @@ export default function OrderForm({ orderInfo }) {
 
         const data = {
             placeId,
-            readyDate: time,
+            readyDate: time.toISOString().slice(0, 19).replace('T', ' '),
             products
         };
+
+        dispatch(sendOrder(data, redirect));
 
     };
 
