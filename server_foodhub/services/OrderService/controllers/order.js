@@ -5,6 +5,7 @@ const {
   insertProductByOrder,
   getOrdersByCustomerId,
   getOrdersByProducerId,
+  changeOrderStatusToWasGiven,
 } = require('../db/db');
 
 async function addOrder(req, res) {
@@ -66,13 +67,48 @@ function getOrdersByCustomer(req, res) {
     })
     .catch(error => {
       console.error(error);
+      res.status(500).json({ error });
     });
 }
 
-function getOrdersByProducer(req, res) {}
+function getOrdersByProducer(req, res) {
+  const { userId } = req.body;
+
+  getOrdersByProducerId(userId)
+    .then(orders => {
+      console.log(orders);
+      res.json(orders);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error });
+    });
+}
+
+async function changeStatus(req, res) {
+  const { userId } = req.body;
+  const { orderId } = req.query;
+
+  const allProducerOrders = await getOrdersByProducerId(userId);
+  const producerHaveCurrentOrder = allProducerOrders.some(
+    order => order.id === parseInt(orderId)
+  );
+
+  if (producerHaveCurrentOrder) {
+    changeOrderStatusToWasGiven(orderId)
+      .then(() => res.status(200).end())
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ error });
+      });
+  } else {
+    res.status(403).end();
+  }
+}
 
 module.exports = {
   addOrder,
   getOrdersByCustomer,
   getOrdersByProducer,
+  changeStatus,
 };
