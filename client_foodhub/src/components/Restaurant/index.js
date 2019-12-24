@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
         minWidth: 600,
         color: theme.palette.text.secondary,
         cursor: 'pointer',
+        backgroundColor: theme.palette.background.default,
     },
     content: {
         padding: theme.spacing(1),
@@ -45,7 +46,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Restaurant(props) {
-    const { id, name, image, description, address, onDelete, asLink = true } = props;
+    const {
+        id,
+        name,
+        image,
+        description,
+        address,
+        onDelete,
+        asLink = true,
+    } = props;
     const classes = useStyles();
 
     const card = (

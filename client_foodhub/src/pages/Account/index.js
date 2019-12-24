@@ -10,7 +10,7 @@ import { selectIsUserProducer } from '../../store';
 
 const useStyles = makeStyles(theme => ({
     button: {
-        position: 'absolute',
+        position: 'fixed',
         bottom: theme.spacing(3),
         left: theme.spacing(6),
     },

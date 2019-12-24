@@ -69,7 +69,7 @@ export default function App() {
                         path={routes.placeAdd}
                         component={AddPlace}
                     />
-                    <ProtectedRoute
+                    <ProducerProtectedRoute
                         exact
                         path={routes.productAdd}
                         component={AddProduct}
