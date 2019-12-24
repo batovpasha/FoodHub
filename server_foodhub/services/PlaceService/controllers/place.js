@@ -149,27 +149,27 @@ function getProductList(req, res) {
     });
 }
 
-function deleteProduct(req, res) {
-  const { userId } = req.body;
-  const { id: productId } = req.query;
+// function deleteProduct(req, res) {
+//   const { userId } = req.body;
+//   const { id: productId } = req.query;
 
-  const allProducts = await getAllProducts();
-  const targetProduct = allProducts.find(product => product.id === productId);
+//   const allProducts = await getAllProducts();
+//   const targetProduct = allProducts.find(product => product.id === productId);
 
-  const allPlaces = await getAllPlaces();
-  const userPlaces = allPlaces.filter(place => place.owner_id === userId);
+//   const allPlaces = await getAllPlaces();
+//   const userPlaces = allPlaces.filter(place => place.owner_id === userId);
 
-  const isMatch = userPlaces.some(place => place.id === targetProduct.place_id);
+//   const isMatch = userPlaces.some(place => place.id === targetProduct.place_id);
   
 
 
-  removePlace(userId, placeId)
-    .then(() => res.status(200).end())
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ error });
-    });
-}
+//   removePlace(userId, placeId)
+//     .then(() => res.status(200).end())
+//     .catch(error => {
+//       console.error(error);
+//       res.status(500).json({ error });
+//     });
+// }
 
 module.exports = {
   addPlace,
