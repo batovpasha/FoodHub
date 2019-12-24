@@ -9,4 +9,5 @@ export const routes = {
     account: '/account',
     businessAccount: '/businessAccount',
     placeAdd: '/place/add',
+    productAdd: '/:place/product/add',
 };

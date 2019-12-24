@@ -3,11 +3,16 @@ import FetchFactory from '../fetch';
 export default class PlaceService {
     fetch = FetchFactory(`${process.env.REACT_APP_PLACE_API_BASE_URL}/place`);
 
-    addPlace = async data => {
+    _createFormData = data => {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
             formData.append(key, value);
         });
+        return formData;
+    };
+
+    addPlace = async data => {
+        const formData = this._createFormData(data);
         const response = await this.fetch.postForm('/add', formData);
         if (!response.ok) {
             return this.handleInvalidResponse(response);
@@ -28,6 +33,20 @@ export default class PlaceService {
         if (!response.ok) {
             this.handleInvalidResponse(response);
         }
+    };
+
+    addProduct = async data => {
+        const formData = this._createFormData(data);
+        const response = await this.fetch.postForm('/product/add', formData);
+        if (!response.ok) {
+            return this.handleInvalidResponse(response);
+        }
+    };
+
+    getProducts = async () => {
+        const response = await this.fetch.get('/product/list');
+        const products = await response.json();
+        return products;
     };
 
     handleInvalidResponse = async response => {

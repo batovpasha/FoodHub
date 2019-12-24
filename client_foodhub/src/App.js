@@ -19,6 +19,7 @@ import Home from './pages/Home';
 import Account from './pages/Account';
 import AddPlace from './pages/AddPlace';
 import BusinessAccount from './pages/BusinessAccount';
+import AddProduct from './pages/AddProduct';
 
 // Components
 import AppBar from './components/AppBar';
@@ -67,6 +68,11 @@ export default function App() {
                         exact
                         path={routes.placeAdd}
                         component={AddPlace}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={routes.productAdd}
+                        component={AddProduct}
                     />
                 </Switch>
             </Router>

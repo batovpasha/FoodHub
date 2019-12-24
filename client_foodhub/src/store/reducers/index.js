@@ -5,6 +5,7 @@ import { restaurantReducer } from './restaurant';
 import { dishReducer } from './dish';
 import { notificationsReducer } from './notifications';
 import { placeReducer } from './place';
+import { orderReducer } from './order';
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
     dish: dishReducer,
     notifications: notificationsReducer,
     place: placeReducer,
+    order: orderReducer,
 });
