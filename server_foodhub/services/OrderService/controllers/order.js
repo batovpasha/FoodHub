@@ -4,6 +4,7 @@ const {
   insertOrder,
   insertProductByOrder,
   getOrdersByCustomerId,
+  getOrdersByProducerId,
 } = require('../db/db');
 
 async function addOrder(req, res) {
@@ -58,17 +59,20 @@ async function addOrder(req, res) {
 function getOrdersByCustomer(req, res) {
   const { userId } = req.body;
 
-  getOrdersByCustomer(userId)
+  getOrdersByCustomerId(userId)
     .then(orders => {
       console.log(orders);
-      res.end();
+      res.json(orders);
     })
     .catch(error => {
       console.error(error);
     });
 }
 
+function getOrdersByProducer(req, res) {}
+
 module.exports = {
   addOrder,
   getOrdersByCustomer,
+  getOrdersByProducer,
 };
