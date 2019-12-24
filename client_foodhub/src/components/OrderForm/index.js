@@ -6,6 +6,8 @@ import {
   KeyboardTimePicker,
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
+import { selectUserData } from '../../store/selectors/user';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,28 +31,71 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function OrderForm() {
+export default function OrderForm({ orderInfo }) {
     const classes = useStyles();
 
-    const [ time, setTime ] = useState(new Date());
+    const handleDateChange = date => setTime(date.toISOString());
+    const handleNameChange = ({ target: { value } }) => setName(value);
+    const handleEmailChange = ({ target: { value } }) => setEmail(value);
+    const handleCommentChange = ({ target: { value } }) => setComment(value);
 
-    const handleDateChange = date => setTime(date);
+    const { firstName, lastName, email : mail } = useSelector(selectUserData);
+
+    const [name, setName] = useState(firstName + ' ' + lastName);
+    const [email, setEmail] = useState(mail);
+    const [ time, setTime ] = useState(new Date());
+    const [comment, setComment] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // normalize products
+
+        const { products : rawProducts , placeId } = orderInfo;
+
+        const products = {};
+        rawProducts.forEach((product) => products[product.id] = product.count);
+
+        const data = {
+            placeId,
+            readyDate: time,
+            products
+        };
+
+    };
 
     return (
         <div className={classes.root}>
-            <Typography style={{ fontWeight: 'bold' }} className={classes.title} variant="h2">
+            <Typography
+                style={{ fontWeight: 'bold' }}
+                className={classes.title}
+                variant="h2"
+            >
                 Информация о заказе
             </Typography>
             <Typography className={classes.title} variant="h5">
                 Введите свои данные для завершения заказа
             </Typography>
-            <form noValidate autoComplete="off">
+            <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <div className={classes.row}>
-                    <TextField className={classes.field} id="name" label="Имя" variant="filled" />
+                    <TextField
+                        className={classes.field}
+                        value={name}
+                        onChange={handleNameChange}
+                        id="name"
+                        label="Имя"
+                        variant="filled"
+                    />
                 </div>
 
                 <div className={classes.row}>
-                    <TextField className={classes.field} id="phone" label="Телефон" variant="filled" />
+                    <TextField
+                        className={classes.field}
+                        id="email"
+                        label="E-mail"
+                        variant="filled"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardTimePicker
                             className={classes.field}
@@ -70,11 +115,13 @@ export default function OrderForm() {
                         className={classes.field}
                         id="comment"
                         label="Комментарий"
+                        value={comment}
+                        onChange={handleCommentChange}
                         variant="filled"
                     />
                 </div>
                 <div className={classes.row}>
-                    <Button className={classes.field} variant="contained">
+                    <Button type="submit" className={classes.field} variant="contained">
                         Подтвердить
                     </Button>
                 </div>

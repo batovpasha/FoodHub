@@ -3,16 +3,18 @@ import Auth from './auth';
 import UserService from './domains/user';
 import RestaurantService from './domains/restaurant';
 import DishService from './domains/dish';
+import PlaceService from './domains/place';
 
-export function configureServices () {
+export function configureServices() {
     return {
         userAPI: new UserService(),
         restaurantAPI: new RestaurantService(),
-        dishAPI: new DishService()
+        dishAPI: new DishService(),
+        placeAPI: new PlaceService(),
     };
-};
+}
 
-export function preloadUserData (userAPI) {
+export function preloadUserData(userAPI) {
     return new Promise((resolve, reject) => {
         if (Auth.token) {
             userAPI
@@ -22,5 +24,5 @@ export function preloadUserData (userAPI) {
         } else {
             reject();
         }
-    })
-};
+    });
+}
