@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Restaurant(props) {
-    const { id, name, image, description, address, onDelete, asLink } = props;
+    const { id, name, image, description, address, onDelete, asLink = true } = props;
     const classes = useStyles();
 
     const card = (
