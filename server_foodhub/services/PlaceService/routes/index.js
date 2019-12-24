@@ -26,11 +26,13 @@ module.exports = app => {
   app.get('/place/image', placeController.getPlaceImage);
 
   app.post(
-    '/place/product/add', 
+    '/place/product/add',
     upload.single('productImage'),
     auth,
     placeController.addProduct
   );
 
   app.get('/place/product/list', auth, placeController.getProductList);
+  app.delete('/place/product/delete', auth, placeController.deleteProduct);
+  app.get('/place/product/image', placeController.getProductImage);
 };

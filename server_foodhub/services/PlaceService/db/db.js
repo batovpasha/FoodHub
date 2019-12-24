@@ -103,6 +103,22 @@ function getAllProducts() {
   });
 }
 
+function getProductImageById(productId) {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT image FROM products WHERE id = ?;',
+      [productId],
+      (err, result) => {
+        if (err) reject(err);
+        else {
+          const image = result.length ? Buffer.from(result[0].image) : null;
+          resolve(image);
+        }
+      }
+    );
+  });
+}
+
 module.exports = {
   insertPlace,
   getAllPlaces,
@@ -111,4 +127,5 @@ module.exports = {
   insertProduct,
   removeProduct,
   getAllProducts,
+  getProductImageById,
 };

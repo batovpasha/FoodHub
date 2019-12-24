@@ -8,6 +8,7 @@ const {
   insertProduct,
   getAllProducts,
   removeProduct,
+  getProductImageById,
 } = require('../db/db');
 
 async function addPlace(req, res) {
@@ -149,27 +150,56 @@ function getProductList(req, res) {
     });
 }
 
-// function deleteProduct(req, res) {
-//   const { userId } = req.body;
-//   const { id: productId } = req.query;
+async function deleteProduct(req, res) {
+  const { userId } = req.body;
+  const { id: productId } = req.query;
 
-//   const allProducts = await getAllProducts();
-//   const targetProduct = allProducts.find(product => product.id === productId);
+  const allProducts = await getAllProducts();
+  console.log(allProducts);
+  const targetProduct = allProducts.find(
+    product => product.id === parseInt(productId)
+  );
+  console.log(targetProduct);
 
-//   const allPlaces = await getAllPlaces();
-//   const userPlaces = allPlaces.filter(place => place.owner_id === userId);
+  const allPlaces = await getAllPlaces();
+  const userPlaces = allPlaces.filter(place => place.owner_id === userId);
 
-//   const isMatch = userPlaces.some(place => place.id === targetProduct.place_id);
-  
+  const userIsOwnerOfProductPlace = userPlaces.some(
+    place => place.id === targetProduct.place_id
+  );
 
+  if (userIsOwnerOfProductPlace) {
+    removeProduct(productId)
+      .then(() => res.status(200).end())
+      .catch(error => {
+        console.error(error);
+        res.status(500).json({ error });
+      });
+  } else {
+    res.status(403).end();
+  }
+}
 
-//   removePlace(userId, placeId)
-//     .then(() => res.status(200).end())
-//     .catch(error => {
-//       console.error(error);
-//       res.status(500).json({ error });
-//     });
-// }
+function getProductImage(req, res) {
+  const { id } = req.query;
+
+  if (id) {
+    getProductImageById(id)
+      .then(image => {
+        if (image) {
+          res.end(image);
+        } else {
+          res.status(404).end();
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        res.status(500).end();
+      });
+  } else {
+    res.status(404).end();
+  }
+}
 
 module.exports = {
   addPlace,
@@ -178,4 +208,6 @@ module.exports = {
   deletePlace,
   addProduct,
   getProductList,
+  deleteProduct,
+  getProductImage,
 };
