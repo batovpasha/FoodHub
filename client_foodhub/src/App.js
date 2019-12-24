@@ -20,6 +20,7 @@ import Account from './pages/Account';
 import AddPlace from './pages/AddPlace';
 import BusinessAccount from './pages/BusinessAccount';
 import AddProduct from './pages/AddProduct';
+import OrderHistory from './pages/OrderHistory';
 
 // Components
 import AppBar from './components/AppBar';
@@ -57,6 +58,11 @@ export default function App() {
                         exact
                         path={routes.order}
                         component={MakeOrder}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={routes.orderHistory}
+                        component={OrderHistory}
                     />
 
                     <ProducerProtectedRoute

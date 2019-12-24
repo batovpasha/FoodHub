@@ -1,6 +1,10 @@
 import {
     sendOrderStart,
     sendOrderFinish,
+
+    getOrdersByCustomerStart,
+    getOrdersByCustomerSuccess,
+    getOrdersByCustomerFail,
 } from '../actions';
 
 import { showNotification } from './notifications';
@@ -30,5 +34,15 @@ export const sendOrder = (data, redirect) => async (dispatch, _getState, { order
         );
     }
     dispatch(sendOrderFinish());
+}
+
+export const getOrdersByCustomer = () => async (dispatch, _getState, { orderAPI }) => {
+    dispatch(getOrdersByCustomerStart());
+    try {
+        const orders = await orderAPI.getOrdersByCustomer();
+        dispatch(getOrdersByCustomerSuccess(orders));
+    } catch (error) {
+        dispatch(getOrdersByCustomerFail(error));
+    }
 }
 

@@ -10,6 +10,15 @@ export default class OrderService {
         }
     }
 
+    getOrdersByCustomer = async () => {
+        const response = await this.fetch.get('/list/customer');
+        if (!response.ok) {
+            return this.handleInvalidResponse(response);
+        }
+        const data = await response.json();
+        return data;
+    }
+
     handleInvalidResponse = async response => {
         const payload = await response.json();
         if (payload && payload.error) {
