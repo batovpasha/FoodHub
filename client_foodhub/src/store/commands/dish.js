@@ -2,7 +2,17 @@ import {
     getDishesStart,
     getDishesSuccess,
     getDishesFail,
+
+    addProductStart,
+    addProductFinish,
 } from '../actions';
+
+import { showNotification } from './notifications';
+import {
+    NotificationTypes,
+    getErrorTypeByError,
+    getErrorMessageByType,
+} from '../../utils';
 
 export const getProducts = () => async (dispatch, _getState, { placeAPI }) => {
     dispatch(getDishesStart());
@@ -15,11 +25,25 @@ export const getProducts = () => async (dispatch, _getState, { placeAPI }) => {
     }
 }
 
-export const addProduct = (data) => async (dispatch, _getState, { placeAPI }) => {
+export const addProduct = (data, redirect) => async (dispatch, _getState, { placeAPI }) => {
+    dispatch(addProductStart());
     try {
         await placeAPI.addProduct(data);
+        dispatch(
+            showNotification(
+                NotificationTypes.SUCCESS,
+                'Product was successufuly added!'
+            )
+        );
+        redirect && redirect();
     } catch (error) {
-        console.error(error);
+        dispatch(
+            showNotification(
+                NotificationTypes.ERROR,
+                getErrorMessageByType(getErrorTypeByError(error))
+            )
+        );
     }
+    dispatch(addProductFinish());
 }
 

@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addProduct } from '../../store';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -49,7 +50,7 @@ export default function AddProductForm() {
 
     const history = useHistory();
     const placeId = history.location.pathname.split('/')[1];
-    // const redirect = useCallback(() => history.push('/'), [history]);
+    const redirect = useCallback(() => history.push(routes.businessAccount), [history]);
 
     const dispatch = useDispatch();
     const onSubmit = useCallback(
@@ -68,12 +69,12 @@ export default function AddProductForm() {
                     description,
                     productImage,
                     price: productPrice,
-                })
+                }, redirect)
             );
 
             e.preventDefault();
         },
-        [dispatch, placeId]
+        [dispatch, placeId, redirect]
     );
 
     const [isFileLoading, setIsFileLoading] = useState(false);

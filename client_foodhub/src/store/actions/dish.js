@@ -6,6 +6,8 @@ export const {
     getDishesFail,
     pickDish,
     removeDish,
+    addProductStart,
+    addProductFinish,
 } = createActions({
     GET_DISHES_START: () => ({}),
     GET_DISHES_SUCCESS: dishes => ({ dishes }),
@@ -13,4 +15,7 @@ export const {
 
     PICK_DISH: (dishId, count) => ({ dishId, count }),
     REMOVE_DISH: (dishId, count) => ({ dishId, count }),
+
+    ADD_PRODUCT_START: () => ({}),
+    ADD_PRODUCT_FINISH: () => ({}),
 });
