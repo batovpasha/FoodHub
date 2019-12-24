@@ -8,4 +8,5 @@ export const routes = {
     orderHistory: '/orderHistory',
     account: '/account',
     businessAccount: '/businessAccount',
+    placeAdd: '/place/add',
 };

@@ -16,6 +16,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Account from './pages/Account';
+import AddPlace from './pages/AddPlace';
 
 // Components
 import AppBar from './components/AppBar';
@@ -53,6 +54,11 @@ export default function App() {
                         exact
                         path={routes.order}
                         component={MakeOrder}
+                    />
+                    <ProtectedRoute
+                        exact
+                        path={routes.placeAdd}
+                        component={AddPlace}
                     />
                 </Switch>
             </Router>
