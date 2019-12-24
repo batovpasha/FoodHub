@@ -5,6 +5,7 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProducerProtectedRoute from './components/ProducerProtectedRoute';
 
 // Pages
 import { routes } from './routes';
@@ -55,7 +56,8 @@ export default function App() {
                         path={routes.order}
                         component={MakeOrder}
                     />
-                    <ProtectedRoute
+
+                    <ProducerProtectedRoute
                         exact
                         path={routes.placeAdd}
                         component={AddPlace}

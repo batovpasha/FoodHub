@@ -8,9 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { addPlace } from '../../store';
+import { addPlace, selectIsPlacesLoading } from '../../store';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -47,8 +48,10 @@ const useStyles = makeStyles(theme => ({
 export default function AddPlaceForm() {
     const classes = useStyles();
 
-    // const history = useHistory();
-    // const redirect = useCallback(() => history.push('/'), [history]);
+    const history = useHistory();
+    const redirect = useCallback(() => history.push(routes.businessAccount), [
+        history,
+    ]);
 
     const dispatch = useDispatch();
     const onSubmit = useCallback(
@@ -60,11 +63,16 @@ export default function AddPlaceForm() {
             const description = formData.get('place-description');
             const placeImage = formData.get('place-picture');
 
-            dispatch(addPlace({ placeName, description, address, placeImage }));
+            dispatch(
+                addPlace(
+                    { placeName, description, address, placeImage },
+                    redirect
+                )
+            );
 
             e.preventDefault();
         },
-        [dispatch]
+        [dispatch, redirect]
     );
 
     const [isFileLoading, setIsFileLoading] = useState(false);
@@ -80,6 +88,8 @@ export default function AddPlaceForm() {
         reader.addEventListener('load', () => setIsFileLoading(false));
         reader.readAsDataURL(file);
     }, []);
+
+    const isProcessing = useSelector(selectIsPlacesLoading);
 
     return (
         <Container component="main" maxWidth="md">
@@ -149,18 +159,25 @@ export default function AddPlaceForm() {
                             </Typography>
                         )}
                         {isFileLoading && (
-                            <CircularProgress color="secondary" />
+                            <CircularProgress size={20} color="secondary" />
                         )}
                     </div>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Add Place
-                    </Button>
+                    {isProcessing ? (
+                        <CircularProgress
+                            className={classes.submit}
+                            color="primary"
+                        />
+                    ) : (
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Add Place
+                        </Button>
+                    )}
                 </form>
             </div>
         </Container>
