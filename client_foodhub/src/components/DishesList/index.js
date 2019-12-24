@@ -3,6 +3,7 @@ import React from 'react';
 // Instruments
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
+import { useLocation } from 'react-router';
 // Components
 import Dish from '../../components/Dish';
 
@@ -20,6 +21,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function DishesList({ dishes }) {
     const classes = useStyles();
+    const location = useLocation();
+
+    const parentId = location.pathname.split('/')[1];
 
     if (!dishes) return null;
 
@@ -27,9 +31,11 @@ export default function DishesList({ dishes }) {
         <div className={classes.root}>
             <Grid container>
                 <Grid container spacing={3}>
-                { dishes.map((dish, index) => (
-                    <Dish key={index} {...dish}/>
-                )) }
+                    {dishes
+                        .filter(({ place_id }) => +place_id === +parentId)
+                        .map((dish, index) => (
+                            <Dish key={index} {...dish} />
+                        ))}
                 </Grid>
             </Grid>
         </div>

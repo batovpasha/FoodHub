@@ -4,6 +4,7 @@ import UserService from './domains/user';
 import RestaurantService from './domains/restaurant';
 import DishService from './domains/dish';
 import PlaceService from './domains/place';
+import OrderService from './domains/order';
 
 export function configureServices() {
     return {
@@ -11,6 +12,7 @@ export function configureServices() {
         restaurantAPI: new RestaurantService(),
         dishAPI: new DishService(),
         placeAPI: new PlaceService(),
+        orderAPI: new OrderService(),
     };
 }
 

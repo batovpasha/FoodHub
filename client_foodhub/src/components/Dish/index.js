@@ -86,7 +86,7 @@ export default function Dish({ id, title, image, price, description }) {
                         <img
                             className={classes.image}
                             alt={'alt'}
-                            src={image}
+                            src={`${process.env.REACT_APP_PLACE_API_BASE_URL}/place/image?id=${id}`}
                         />
                     </Grid>
                     <Grid className={classes.content} item xs={8}>

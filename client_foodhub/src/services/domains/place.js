@@ -14,6 +14,12 @@ export default class PlaceService {
         }
     };
 
+    getPlaces = async () => {
+        const response = await this.fetch.get('/product/list');
+        const places = await response.json();
+        return places;
+    }
+
     handleInvalidResponse = async response => {
         const payload = await response.json();
         if (payload && payload.error) {
