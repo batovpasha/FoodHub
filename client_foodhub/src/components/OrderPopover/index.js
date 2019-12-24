@@ -8,6 +8,7 @@ import { DishCountDialog } from '../DishCountDialog';
 import { useHistory } from 'react-router';
 import { routes } from '../../routes';
 import { selectPickedDishes, removeDish } from '../../store';
+import { useLocation } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
@@ -38,10 +39,7 @@ export const OrderPopover = (props) => {
     const dispatch = useDispatch();
 
     const history = useHistory();
-
-    const makeOrder = () => {
-        history.replace(routes.order);
-    };
+    const location = useLocation();
 
     const getLabel = ( label, count ) => {
         if (count > 1) {
@@ -55,6 +53,16 @@ export const OrderPopover = (props) => {
     const [maxInDialogValue, setMaxInDialogValue] = useState(null);
 
     const [activeDish, setActiveDish] = useState(null);
+
+    const makeOrder = () => {
+        history.replace({
+            pathname: routes.order,
+            state: {
+                products: orderedDishes.toJS(),
+                placeId: location.pathname.split('/')[1],
+            },
+        });
+    };
 
     const setDish = (dish) => {
         const count = dish.get('count');

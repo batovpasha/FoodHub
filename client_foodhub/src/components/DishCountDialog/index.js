@@ -37,7 +37,7 @@ export const DishCountDialog = ({ title, isOpen, setOpen, count, setCount, max, 
                 >
                     <TextField
                         value={count}
-                        inputProps={{ max: max ?? 100, min: 1 }}
+                        inputProps={{ max: max ?? 100, min: 1, style: {textAlign: 'center'}}}
                         onChange={handleChangeValue}
                         fullWidth
                         type="tel"
