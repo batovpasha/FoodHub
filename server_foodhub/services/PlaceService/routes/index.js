@@ -3,7 +3,7 @@ const auth = require('../middleware/auth');
 
 const upload = multer({
   fileFilter(req, file, cb) {
-    const regexp = /\.(pdf|jpg)$/g;
+    const regexp = /\.(png|jpg)$/g;
     if (!regexp.test(file.originalname)) {
       const err = new Error('Please send only a PDF or JPEG files!');
       return cb(err);
