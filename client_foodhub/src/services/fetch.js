@@ -32,5 +32,14 @@ export default function FetchFactory(baseUrl) {
                     ...(auth ? Auth.getAuthHeader() : {}),
                 }),
             }),
+        postForm: (url, formData, { auth = true, headers = {} } = {}) =>
+            callFetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: new Headers({
+                    ...headers,
+                    ...(auth ? Auth.getAuthHeader() : {}),
+                }),
+            }),
     };
 }

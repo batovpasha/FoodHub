@@ -42,6 +42,6 @@ export const selectUserDataErrorMessage = createSelector(
     (user, isError) => {
         if (!isError) return;
         const errorType = user.getIn(['error', 'type']);
-        getErrorMessageByType(errorType);
+        return getErrorMessageByType(errorType);
     }
 );
