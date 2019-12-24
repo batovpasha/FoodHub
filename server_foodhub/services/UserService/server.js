@@ -2,10 +2,10 @@
 
 const express = require('express');
 const dotenv = require('dotenv');
-const path = require('path');
 
 // Middleware
 const cors = require('cors');
+const auth = require('./middleware/auth');
 
 // Load all environment variables from .env file to process.env
 dotenv.config();
@@ -27,7 +27,7 @@ app.use(cors());
 
 // Setup middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(auth);
 
 // Setup routes
 mountRoutes(app);
