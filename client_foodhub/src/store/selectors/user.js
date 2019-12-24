@@ -15,6 +15,10 @@ export const selectUserRole = createSelector(selectUserState, user =>
     user.getIn(['data', 'role'])
 );
 
+export const selectUserId = createSelector(selectUserState, user =>
+    user.getIn(['data', 'id'])
+);
+
 export const selectIsUserProducer = createSelector(
     selectUserRole,
     role => role === 'producer'

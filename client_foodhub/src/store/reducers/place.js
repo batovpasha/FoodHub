@@ -1,6 +1,12 @@
-import { fromJS } from 'immutable';
-import { handleActions } from 'redux-actions';
+import { fromJS, List } from 'immutable';
+import { handleActions, combineActions } from 'redux-actions';
 import { ResourseStatus } from '../constants';
+import {
+    addPlaceStart,
+    deletePlaceStart,
+    addPlaceFinish,
+    deletePlaceFinish,
+} from '../actions/place';
 
 const initialState = fromJS({
     status: ResourseStatus.READY,
@@ -10,11 +16,25 @@ const initialState = fromJS({
 
 export const placeReducer = handleActions(
     {
-        ADD_PLACE_START: state =>
+        [combineActions(addPlaceStart, deletePlaceStart)]: state =>
             state.updateIn(['status'], () => ResourseStatus.LOADING),
 
-        ADD_PLACE_FINISH: state =>
+        [combineActions(addPlaceFinish, deletePlaceFinish)]: state =>
             state.updateIn(['status'], () => ResourseStatus.READY),
+
+        FETCH_PLACES_START: state =>
+            state.updateIn(['status'], () => ResourseStatus.LOADING),
+
+        FETCH_PLACES_SUCCESS: (state, { payload: { places } }) =>
+            state
+                .updateIn(['list'], () => new List(places))
+                .updateIn(['status'], () => ResourseStatus.READY)
+                .updateIn(['error'], () => undefined),
+
+        FETCH_PLACES_FAILURE: (state, { payload: { error } }) =>
+            state
+                .updateIn(['error'], () => error)
+                .updateIn(['status'], () => ResourseStatus.ERROR),
     },
     initialState
 );

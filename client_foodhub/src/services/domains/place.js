@@ -14,6 +14,22 @@ export default class PlaceService {
         }
     };
 
+    fetchPlaces = async () => {
+        const response = await this.fetch.get('/list');
+        if (response.ok) {
+            return response.json();
+        } else {
+            this.handleInvalidResponse(response);
+        }
+    };
+
+    deletePlace = async id => {
+        const response = await this.fetch.delete(`/delete?id=${id}`);
+        if (!response.ok) {
+            this.handleInvalidResponse(response);
+        }
+    };
+
     handleInvalidResponse = async response => {
         const payload = await response.json();
         if (payload && payload.error) {

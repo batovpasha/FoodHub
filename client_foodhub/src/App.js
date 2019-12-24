@@ -18,6 +18,7 @@ import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import Account from './pages/Account';
 import AddPlace from './pages/AddPlace';
+import BusinessAccount from './pages/BusinessAccount';
 
 // Components
 import AppBar from './components/AppBar';
@@ -57,6 +58,11 @@ export default function App() {
                         component={MakeOrder}
                     />
 
+                    <ProducerProtectedRoute
+                        exact
+                        path={routes.businessAccount}
+                        component={BusinessAccount}
+                    />
                     <ProducerProtectedRoute
                         exact
                         path={routes.placeAdd}

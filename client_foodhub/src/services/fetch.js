@@ -41,5 +41,13 @@ export default function FetchFactory(baseUrl) {
                     ...(auth ? Auth.getAuthHeader() : {}),
                 }),
             }),
+        delete: (url, { auth = true, headers = {} } = {}) =>
+            callFetch(url, {
+                method: 'DELETE',
+                headers: new Headers({
+                    ...headers,
+                    ...(auth ? Auth.getAuthHeader() : {}),
+                }),
+            }),
     };
 }

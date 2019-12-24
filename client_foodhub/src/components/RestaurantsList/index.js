@@ -13,10 +13,10 @@ const useStyles = makeStyles(theme => ({
     },
     card: {
         padding: theme.spacing(3),
-        margin:  theme.spacing(1),
+        margin: theme.spacing(1),
         textAlign: 'center',
         color: theme.palette.text.secondary,
-    }
+    },
 }));
 
 export default function RestaurantsList({ searchValue, restaurants }) {
@@ -30,8 +30,8 @@ export default function RestaurantsList({ searchValue, restaurants }) {
                 <Grid container spacing={3}>
                     {restaurants
                         .filter(r =>
-                            r
-                                .title.toLowerCase()
+                            r.name
+                                .toLowerCase()
                                 .includes(searchValue.toLowerCase())
                         )
                         .map((restaurant, index) => (
