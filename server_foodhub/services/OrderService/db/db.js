@@ -38,7 +38,7 @@ function insertProductByOrder(productId, orderId, quantity) {
 function getOrdersByCustomerId(customerId) {
   return new Promise((resolve, reject) => {
     pool.query(
-      'SELECT orders.id, customer_id, orders.place_id, order_date, ready_date, total_price, was_given_to_client, product_id, order_id, quantity, products.is, product_name, description, price, is_active, products.place_id FROM orders JOIN products_by_orders ON orders.id = products_by_orders.order_id JOIN products ON products_by_orders.product_id = products.id WHERE customer_id = ?;',
+      'select orders.id, customer_id, orders.place_id, order_date, ready_date, total_price, was_giver_to_client, product_id, order_id, quantity, products.id, product_name, description, price, is_active from orders join products_by_orders on orders.id = products_by_orders.order_id join products on products_by_orders.product_id = products.id WHERE customer_id = ?',
       [customerId],
       (err, results) => {
         if (err) reject(err);
