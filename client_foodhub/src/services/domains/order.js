@@ -1,10 +1,10 @@
 import FetchFactory from '../fetch';
 
 export default class OrderService {
-    fetch = FetchFactory(`${process.env.REACT_APP_ORDER_API_BASE_URL}/orders`);
+    fetch = FetchFactory(`${process.env.REACT_APP_ORDER_API_BASE_URL}/order`);
 
     sendOrder = async data => {
-        const response = await this.fetch('/add', data);
+        const response = await this.fetch.post('/add', data);
         if (!response.ok) {
             return this.handleInvalidResponse(response);
         }

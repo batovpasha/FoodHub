@@ -50,7 +50,9 @@ export default function AddProductForm() {
 
     const history = useHistory();
     const placeId = history.location.pathname.split('/')[1];
-    const redirect = useCallback(() => history.push(routes.businessAccount), [history]);
+    const redirect = useCallback(() => history.push(routes.businessAccount), [
+        history,
+    ]);
 
     const dispatch = useDispatch();
     const onSubmit = useCallback(
@@ -63,13 +65,16 @@ export default function AddProductForm() {
             const productPrice = formData.get('product-price');
 
             dispatch(
-                addProduct({
-                    placeId,
-                    productName,
-                    description,
-                    productImage,
-                    price: productPrice,
-                }, redirect)
+                addProduct(
+                    {
+                        placeId,
+                        productName,
+                        description,
+                        productImage,
+                        price: productPrice,
+                    },
+                    redirect
+                )
             );
 
             e.preventDefault();
@@ -121,7 +126,6 @@ export default function AddProductForm() {
                         id="product-price"
                         label="Product Price"
                         name="product-price"
-                        autoFocus
                     />
                     <TextField
                         variant="outlined"

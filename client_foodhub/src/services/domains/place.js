@@ -24,20 +24,27 @@ export default class PlaceService {
         if (response.ok) {
             return response.json();
         } else {
-            this.handleInvalidResponse(response);
+            return this.handleInvalidResponse(response);
         }
     };
 
     deletePlace = async id => {
         const response = await this.fetch.delete(`/delete?id=${id}`);
         if (!response.ok) {
-            this.handleInvalidResponse(response);
+            return this.handleInvalidResponse(response);
         }
     };
 
     addProduct = async data => {
         const formData = this._createFormData(data);
         const response = await this.fetch.postForm('/product/add', formData);
+        if (!response.ok) {
+            return this.handleInvalidResponse(response);
+        }
+    };
+
+    deleteProduct = async id => {
+        const response = await this.fetch.delete(`/product/delete?id=${id}`);
         if (!response.ok) {
             return this.handleInvalidResponse(response);
         }

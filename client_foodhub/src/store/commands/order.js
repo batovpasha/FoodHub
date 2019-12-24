@@ -1,16 +1,34 @@
 import {
     sendOrderStart,
-    sendOrderSuccess,
-    sendOrderFail,
+    sendOrderFinish,
 } from '../actions';
 
-export const sendOrder = data => async (dispatch, _getState, { dishAPI }) => {
-    // dispatch(getDishesStart());
-    // try {
-    //     const dishes = await dishAPI.getDishes(restaurantId);
-    //     dispatch(getDishesSuccess(dishes));
-    // } catch(error) {
-    //     dispatch(getDishesFail(error));
-    // }
+import { showNotification } from './notifications';
+import {
+    NotificationTypes,
+    getErrorTypeByError,
+    getErrorMessageByType,
+} from '../../utils';
+
+export const sendOrder = (data, redirect) => async (dispatch, _getState, { orderAPI }) => {
+    dispatch(sendOrderStart());
+    try {
+        await orderAPI.sendOrder(data);
+        dispatch(
+            showNotification(
+                NotificationTypes.SUCCESS,
+                'Order was successufuly sent'
+            )
+        );
+        redirect && redirect();
+    } catch (error) {
+        dispatch(
+            showNotification(
+                NotificationTypes.ERROR,
+                getErrorMessageByType(getErrorTypeByError(error))
+            )
+        );
+    }
+    dispatch(sendOrderFinish());
 }
 

@@ -37,12 +37,12 @@ export default function App() {
                     <Route exact path={routes.signIn} component={SignIn} />
                     <Route exact path={routes.signUp} component={SignUp} />
 
+                    <ProtectedRoute exact path={routes.home} component={Home} />
                     <ProtectedRoute
                         exact
                         path={routes.restaurants}
                         component={Restaurants}
                     />
-                    <ProtectedRoute exact path={routes.home} component={Home} />
                     <ProtectedRoute
                         exact
                         path={routes.account}
@@ -69,7 +69,7 @@ export default function App() {
                         path={routes.placeAdd}
                         component={AddPlace}
                     />
-                    <ProtectedRoute
+                    <ProducerProtectedRoute
                         exact
                         path={routes.productAdd}
                         component={AddProduct}

@@ -2,7 +2,16 @@
 import React, { useState, useEffect } from 'react';
 // Instruments
 import { makeStyles } from '@material-ui/core/styles';
-import { getLocations, getRestaurants, selectIsRestaurantsLoading, selectAllLocations, selectAllRestaurants} from '../../store';
+import {
+    getLocations,
+    getRestaurants,
+    selectIsRestaurantsLoading,
+    selectAllLocations,
+    selectAllRestaurants,
+    fetchPlaces,
+    selectIsPlacesLoading,
+    selectPlaces,
+} from '../../store';
 // Components
 import Loading from '../../components/Loading';
 import RestaurantsList from '../../components/RestaurantsList';
@@ -19,17 +28,17 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Restaurants () {
+export default function Restaurants() {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     const locations = useSelector(selectAllLocations);
-    const restaurants = useSelector(selectAllRestaurants);
-    const isLoading = useSelector(selectIsRestaurantsLoading);
+    const restaurants = useSelector(selectPlaces);
+    const isLoading = useSelector(selectIsPlacesLoading);
 
     useEffect(() => {
         dispatch(getLocations());
-        dispatch(getRestaurants());
+        dispatch(fetchPlaces());
     }, [dispatch]);
 
     // hardcoded for presentation, will change soon
