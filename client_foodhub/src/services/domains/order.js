@@ -8,7 +8,7 @@ export default class OrderService {
         if (!response.ok) {
             return this.handleInvalidResponse(response);
         }
-    }
+    };
 
     getOrdersByCustomer = async () => {
         const response = await this.fetch.get('/list/customer');
@@ -17,7 +17,15 @@ export default class OrderService {
         }
         const data = await response.json();
         return data;
-    }
+    };
+
+    getOrdersByProducer = async () => {
+        const response = await this.fetch.get('/list/producer');
+        if (!response.ok) {
+            return this.handleInvalidResponse(response);
+        }
+        return response.json();
+    };
 
     handleInvalidResponse = async response => {
         const payload = await response.json();

@@ -8,7 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 export const OrderHistoryList = ({ ordersHistory }) => {
-    const headers = ordersHistory && ordersHistory[0] && Object.keys(ordersHistory[0]);
+    const headers =
+        ordersHistory && ordersHistory[0] && Object.keys(ordersHistory[0]);
 
     if (!ordersHistory || !headers) return null;
 
@@ -17,8 +18,8 @@ export const OrderHistoryList = ({ ordersHistory }) => {
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        {headers.map(header => (
-                            <TableCell>{header}</TableCell>
+                        {headers.map((header, index) => (
+                            <TableCell key={index}>{header}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
@@ -30,13 +31,15 @@ export const OrderHistoryList = ({ ordersHistory }) => {
                         )
                         .map((row, index) => (
                             <TableRow key={index}>
-                                {headers.map(header => {
-                                    return <TableCell>{row[header]}</TableCell>;
-                                })}
+                                {headers.map((header, i) => (
+                                    <TableCell key={i + '-' + index}>
+                                        {row[header]}
+                                    </TableCell>
+                                ))}
                             </TableRow>
                         ))}
                 </TableBody>
             </Table>
         </TableContainer>
     );
-}
+};

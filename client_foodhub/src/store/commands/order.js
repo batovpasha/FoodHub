@@ -1,10 +1,12 @@
 import {
     sendOrderStart,
     sendOrderFinish,
-
     getOrdersByCustomerStart,
     getOrdersByCustomerSuccess,
     getOrdersByCustomerFail,
+    getOrdersByProducerStart,
+    getOrdersByProducerSuccess,
+    getOrdersByProducerFail,
 } from '../actions';
 
 import { showNotification } from './notifications';
@@ -14,7 +16,11 @@ import {
     getErrorMessageByType,
 } from '../../utils';
 
-export const sendOrder = (data, redirect) => async (dispatch, _getState, { orderAPI }) => {
+export const sendOrder = (data, redirect) => async (
+    dispatch,
+    _getState,
+    { orderAPI }
+) => {
     dispatch(sendOrderStart());
     try {
         await orderAPI.sendOrder(data);
@@ -34,9 +40,13 @@ export const sendOrder = (data, redirect) => async (dispatch, _getState, { order
         );
     }
     dispatch(sendOrderFinish());
-}
+};
 
-export const getOrdersByCustomer = () => async (dispatch, _getState, { orderAPI }) => {
+export const getOrdersByCustomer = () => async (
+    dispatch,
+    _getState,
+    { orderAPI }
+) => {
     dispatch(getOrdersByCustomerStart());
     try {
         const orders = await orderAPI.getOrdersByCustomer();
@@ -44,5 +54,18 @@ export const getOrdersByCustomer = () => async (dispatch, _getState, { orderAPI 
     } catch (error) {
         dispatch(getOrdersByCustomerFail(error));
     }
-}
+};
 
+export const getOrdersByProducer = () => async (
+    dispatch,
+    _getState,
+    { orderAPI }
+) => {
+    dispatch(getOrdersByProducerStart());
+    try {
+        const orders = await orderAPI.getOrdersByProducer();
+        dispatch(getOrdersByProducerSuccess(orders));
+    } catch (error) {
+        dispatch(getOrdersByProducerFail(error));
+    }
+};
